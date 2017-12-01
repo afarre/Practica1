@@ -1,4 +1,6 @@
-import com.google.api.services.youtube.YouTube;
+import com.google.gson.JsonObject;
+
+import java.io.IOException;
 import java.util.Scanner;
 
 
@@ -6,28 +8,9 @@ import java.util.Scanner;
  * Created by angel on 29/11/2017.
  */
 public class Menu {
+    JsonReader jsonReader = new JsonReader();
 
-    /** Global instance properties filename. */
-    private static String PROPERTIES_FILENAME = "youtube.properties";
-
-    /** Global instance of the HTTP transport. */
-    private static final HttpTransport HTTP_TRANSPORT = new NetHttpTransport();
-
-    /** Global instance of the JSON factory. */
-    private static final JsonFactory JSON_FACTORY = new JacksonFactory();
-
-    /** Global instance of the max number of videos we want returned (50 = upper limit per page). */
-    private static final long NUMBER_OF_VIDEOS_RETURNED = 25;
-
-    /** Global instance of Youtube object to make all API requests. */
-    private static YouTube youtube;
-
-    public Menu(){
-        mostraMenu();
-    }
-//https://www.googleapis.com/youtube/v3/videos?id=/*quin video*/7lCDEYXw3mM/*API KEY*/&key=AIzaSyCHI5qNldMo0BcX8iVv7Gnx9Zc0i1fcIQ0&part=/*que vols del vieo*/statistics
-//AIzaSyCHI5qNldMo0BcX8iVv7Gnx9Zc0i1fcIQ0
-    private void mostraMenu() {
+    void mostraMenu() {
         int i;
         do {
             System.out.println();
@@ -47,6 +30,7 @@ public class Menu {
                 System.out.println("Opcio del menu incorrecta! Introdueix l'opcio de nou:");
                 i = read.nextInt();
             }
+
             switch (i){
                 case 1:
                     opcio1();
@@ -71,8 +55,23 @@ public class Menu {
     }
 
     private void opcio1() {
-        YouTube youTube = new YouTube();
+        System.out.println("Introduiex el que vols cercar:");
+        Scanner read = new Scanner(System.in);
+        String queryTerm = read.nextLine();
+        String url = "https://www.googleapis.com/youtube/v3/search?part=snippet&q=" + queryTerm + "&key=AIzaSyCHI5qNldMo0BcX8iVv7Gnx9Zc0i1fcIQ0";
+        try {
+            JsonObject json = jsonReader.getJsonFromURL(url);
 
+            for (int i = 0 ; i < json.size() && i < 3; i++){
+                System.out.println("~~~~Resultat numero " + (i + 1) + "~~~~");
+                System.out.println("    Tipus de resultat: " + json.get("items").getAsJsonArray().get(i).getAsJsonObject().get("id").getAsJsonObject().get("kind").getAsString());
+                System.out.println("    Titol: " + json.get("items").getAsJsonArray().get(i).getAsJsonObject().get("snippet").getAsJsonObject().get("title").getAsString());
+                System.out.println("    Descripcio: " + json.get("items").getAsJsonArray().get(i).getAsJsonObject().get("snippet").getAsJsonObject().get("description").getAsString());
+                System.out.println("    Nom del canal al que correspon: " + json.get("items").getAsJsonArray().get(i).getAsJsonObject().get("snippet").getAsJsonObject().get("channelTitle").getAsString() + "\n");
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     private void opcio2() {
