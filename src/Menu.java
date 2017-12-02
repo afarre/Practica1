@@ -1,5 +1,9 @@
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 
+import java.io.FileWriter;
 import java.io.IOException;
 import java.util.Scanner;
 
@@ -89,7 +93,6 @@ public class Menu {
             read = new Scanner(System.in);
             String guardar = read.nextLine();
             do {
-
                 if (guardar.toUpperCase().equals("NEXT")){
                     i = i + 10;
                     mostraResultats(i, json);
@@ -102,7 +105,11 @@ public class Menu {
                     return;
                 }else if (isNumeric(guardar)){
                     int intGuardar = Integer.parseInt(guardar);
-                    guardaCerca(intGuardar);
+                    //JsonObject test =
+                    guardaCerca(intGuardar, json);
+                    //JsonArray jsonArray = new JsonArray();
+                    //jsonArray.add(test);
+                    //guardaFitxer(jsonArray);
                     return;
                 }else{
                     System.out.println("Aquesta no es una opcio valida! Introdueix una opcio de nou: ");
@@ -117,12 +124,37 @@ public class Menu {
         }
     }
 
-    private void guardaCerca(int intGuardar) {
+    private void guardaFitxer(JsonArray array) {
+        try { FileWriter file = new FileWriter("favoritePlaces.json");
+            file.write(array.toString());
+            file.flush();
+            file.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
-    private static boolean isNumeric(String str)
-    {
-        return str.matches("-?\\d+(\\.\\d+)?");  //match a number with optional '-' and decimal.
+    private void guardaCerca(int i, JsonObject json) {
+        JsonObject jsonObject;
+        FavouritesModel favouritesModel = new FavouritesModel();
+        favouritesModel.setTipusResultat(json.get("items").getAsJsonArray().get(i).getAsJsonObject().get("id").getAsJsonObject().get("kind").getAsString());
+        favouritesModel.setTitol(json.get("items").getAsJsonArray().get(i).getAsJsonObject().get("snippet").getAsJsonObject().get("title").getAsString());
+        favouritesModel.setDescripcio(json.get("items").getAsJsonArray().get(i).getAsJsonObject().get("snippet").getAsJsonObject().get("description").getAsString());
+        favouritesModel.setNomCanal(json.get("items").getAsJsonArray().get(i).getAsJsonObject().get("snippet").getAsJsonObject().get("channelTitle").getAsString());
+
+        JsonParser jsonParser = new JsonParser();
+        JsonArray jsonArray = new JsonArray();
+        jsonArray.add(favouritesModel.toString());
+        guardaFitxer(jsonArray);
+        /*
+        JsonElement element = jsonParser.parse(jsonArray.get(0).toString());
+        jsonObject = element.getAsJsonObject();
+        return jsonObject;
+        */
+    }
+
+    private static boolean isNumeric(String str) {
+        return str.matches("-?\\d+(\\.\\d+)?");
     }
 
     private void mostraResultats(int index, JsonObject json) {
