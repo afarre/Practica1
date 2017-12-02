@@ -146,10 +146,29 @@ public class Menu {
     }
 
     private void opcio3() {
-        String URL = "https://www.googleapis.com/youtube/v3/videos?id=vJc7s9OJYiY&key=" + API_KEY + "&part=statistics";
+        JsonArray favorits = jsonReader.lectura();
+        System.out.println(favorits);
+        for (int i = 0; i < favorits.size(); i++){
+            if (favorits.getAsJsonArray().get(i).getAsJsonObject().get("tipusResultat").equals("youtube#channel")){
+
+                System.out.println(favorits.get(0).getAsJsonObject().get("id"));
+            }
+        }
+        //per a videos
+        String URL1 = "https://www.googleapis.com/youtube/v3/videos?id=vJc7s9OJYiY&key=" + API_KEY + "&part=statistics";
+        //per a canals
+        String URL2 = "https://www.googleapis.com/youtube/v3/channels?id=UCEOWFJSDlfEgM_iPduEuHeg&key=" + API_KEY + "&part=statistics";
+        //per a llistes
+        String URL3 = "https://www.googleapis.com/youtube/v3/playlists?id=PLMC9KNkIncKtPzgY-5rmhvj7fax8fdxoj&key=" + API_KEY + "&part=snippet";
     }
 
     private void opcio4() {
+        //per a videos
+        String URL1 = "https://www.googleapis.com/youtube/v3/videos?id=vJc7s9OJYiY&key=" + API_KEY + "&part=statistics";
+        //per a canals
+        String URL2 = "https://www.googleapis.com/youtube/v3/channels?id=UCEOWFJSDlfEgM_iPduEuHeg&key=" + API_KEY + "&part=statistics";
+        //per a llistes
+        String URL3 = "https://www.googleapis.com/youtube/v3/playlists?id=PLMC9KNkIncKtPzgY-5rmhvj7fax8fdxoj&key=" + API_KEY + "&part=snippet";
 
     }
 

@@ -8,6 +8,15 @@ public class FavouritesModel {
     private String titol;
     private String descripcio;
     private String nomCanal;
+    private String id;
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
 
     public String getTipusResultat() {
         return tipusResultat;
@@ -43,11 +52,12 @@ public class FavouritesModel {
 
     @Override
     public String toString() {
-        return "model.FavouritesModel{" +
+        return "FavouritesModel{" +
                 "tipusResultat='" + tipusResultat + '\'' +
                 ", titol='" + titol + '\'' +
                 ", descripcio='" + descripcio + '\'' +
                 ", nomCanal='" + nomCanal + '\'' +
+                ", id='" + id + '\'' +
                 '}';
     }
 }

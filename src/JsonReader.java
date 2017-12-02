@@ -2,6 +2,7 @@
  * Created by angel on 01/12/2017.
  */
 import com.google.gson.Gson;
+import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 
 import java.io.*;
@@ -9,20 +10,21 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 
 class JsonReader {
-    private static final String FILE_NAME = "laSallers.json";
 
     /**
      * Carrega i llegeix el fitxer Json corresponent
      * @return el fitxer Json llegit en forma JsonObject
      */
-    JsonObject lectura(){
-        JsonObject jsonObject = new JsonObject();
+    JsonArray lectura(){
+        //JsonObject jsonObject = new JsonObject();
+        JsonArray jsonArray = new JsonArray();
         Gson gson = new Gson();
         BufferedReader br = null;
         try {
-            FileReader fr = new FileReader(FILE_NAME);
+            FileReader fr = new FileReader("favoritePlaces.json");
             br = new BufferedReader(fr);
-            jsonObject = gson.fromJson(br, JsonObject.class);
+            jsonArray = gson.fromJson(br, JsonArray.class);
+            //jsonObject = gson.fromJson(br, JsonObject.class).getAsJsonObject();
         } catch (FileNotFoundException ko) {
             ko.printStackTrace();
         } finally {
@@ -34,7 +36,8 @@ class JsonReader {
                 }
             }
         }
-        return jsonObject;
+        return jsonArray;
+        //return jsonObject;
     }
 
     /**

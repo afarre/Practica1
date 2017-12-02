@@ -9,8 +9,6 @@ import java.io.IOException;
  */
 public class GeneraJSON {
 
-
-
     /**
      * Crea un fitxer .json
      * @param array Array de dades a partir del qual generar el fitxer .json
@@ -37,6 +35,18 @@ public class GeneraJSON {
         favouritesModel.setTitol(json.get("items").getAsJsonArray().get(i).getAsJsonObject().get("snippet").getAsJsonObject().get("title").getAsString());
         favouritesModel.setDescripcio(json.get("items").getAsJsonArray().get(i).getAsJsonObject().get("snippet").getAsJsonObject().get("description").getAsString());
         favouritesModel.setNomCanal(json.get("items").getAsJsonArray().get(i).getAsJsonObject().get("snippet").getAsJsonObject().get("channelTitle").getAsString());
+
+        switch (favouritesModel.getTipusResultat()) {
+            case "youtube#channel":
+                favouritesModel.setId(json.get("items").getAsJsonArray().get(i).getAsJsonObject().get("id").getAsJsonObject().get("channelId").getAsString());
+                break;
+            case "youtube#playlist":
+                favouritesModel.setId(json.get("items").getAsJsonArray().get(i).getAsJsonObject().get("id").getAsJsonObject().get("playlistId").getAsString());
+                break;
+            case "youtube#video":
+                favouritesModel.setId(json.get("items").getAsJsonArray().get(i).getAsJsonObject().get("id").getAsJsonObject().get("videoId").getAsString());
+                break;
+        }
 
         Gson gson = new Gson();
         JsonParser jsonParser = new JsonParser();
