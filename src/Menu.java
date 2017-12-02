@@ -1,9 +1,6 @@
 import com.google.gson.JsonArray;
-import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
 
-import java.io.FileWriter;
 import java.io.IOException;
 import java.util.Scanner;
 
@@ -13,6 +10,8 @@ import java.util.Scanner;
  */
 public class Menu {
     private JsonReader jsonReader = new JsonReader();
+    private JsonArray jsonArray = new JsonArray();
+    private String API_KEY = "AIzaSyCHI5qNldMo0BcX8iVv7Gnx9Zc0i1fcIQ0";
 
     void mostraMenu() {
         int i;
@@ -62,7 +61,7 @@ public class Menu {
         System.out.println("Introduiex el que vols cercar:");
         Scanner read = new Scanner(System.in);
         String queryTerm = read.nextLine();
-        String URL = "https://www.googleapis.com/youtube/v3/search?part=snippet&q=" + queryTerm + "&key=AIzaSyCHI5qNldMo0BcX8iVv7Gnx9Zc0i1fcIQ0";
+        String URL = "https://www.googleapis.com/youtube/v3/search?part=snippet&q=" + queryTerm + "&key=" + API_KEY;
         try {
             JsonObject json = jsonReader.getJsonFromURL(URL);
 
@@ -82,7 +81,7 @@ public class Menu {
         System.out.println("Introduiex el que vols cercar:");
         Scanner read = new Scanner(System.in);
         String queryTerm = read.nextLine();
-        String URL = "https://www.googleapis.com/youtube/v3/search?part=snippet&q=" + queryTerm.replace(" ", "-") + "&key=AIzaSyCHI5qNldMo0BcX8iVv7Gnx9Zc0i1fcIQ0&maxResults=50";
+        String URL = "https://www.googleapis.com/youtube/v3/search?part=snippet&q=" + queryTerm.replace(" ", "-") + "&key=" + API_KEY + "&maxResults=50";
         try {
             JsonObject json = jsonReader.getJsonFromURL(URL);
 
@@ -105,11 +104,9 @@ public class Menu {
                     return;
                 }else if (isNumeric(guardar)){
                     int intGuardar = Integer.parseInt(guardar);
-                    //JsonObject test =
-                    guardaCerca(intGuardar, json);
-                    //JsonArray jsonArray = new JsonArray();
-                    //jsonArray.add(test);
-                    //guardaFitxer(jsonArray);
+                    GeneraJSON generaJSON = new GeneraJSON();
+                    jsonArray.add(generaJSON.generaObjecte(intGuardar - 1, json));
+                    generaJSON.guardaFitxer(jsonArray);
                     return;
                 }else{
                     System.out.println("Aquesta no es una opcio valida! Introdueix una opcio de nou: ");
@@ -124,39 +121,11 @@ public class Menu {
         }
     }
 
-    private void guardaFitxer(JsonArray array) {
-        try { FileWriter file = new FileWriter("favoritePlaces.json");
-            file.write(array.toString());
-            file.flush();
-            file.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
-    private void guardaCerca(int i, JsonObject json) {
-        JsonObject jsonObject;
-        FavouritesModel favouritesModel = new FavouritesModel();
-        favouritesModel.setTipusResultat(json.get("items").getAsJsonArray().get(i).getAsJsonObject().get("id").getAsJsonObject().get("kind").getAsString());
-        favouritesModel.setTitol(json.get("items").getAsJsonArray().get(i).getAsJsonObject().get("snippet").getAsJsonObject().get("title").getAsString());
-        favouritesModel.setDescripcio(json.get("items").getAsJsonArray().get(i).getAsJsonObject().get("snippet").getAsJsonObject().get("description").getAsString());
-        favouritesModel.setNomCanal(json.get("items").getAsJsonArray().get(i).getAsJsonObject().get("snippet").getAsJsonObject().get("channelTitle").getAsString());
-
-        JsonParser jsonParser = new JsonParser();
-        JsonArray jsonArray = new JsonArray();
-        jsonArray.add(favouritesModel.toString());
-        guardaFitxer(jsonArray);
-        /*
-        JsonElement element = jsonParser.parse(jsonArray.get(0).toString());
-        jsonObject = element.getAsJsonObject();
-        return jsonObject;
-        */
-    }
-
-    private static boolean isNumeric(String str) {
-        return str.matches("-?\\d+(\\.\\d+)?");
-    }
-
+    /**
+     * Mostra per pantalla els resultats del json introduit
+     * @param index index de per quines caselles del array començar a printar els resultat
+     * @param json Objecte JsonObject que conte la informacio la qual volem printar
+     */
     private void mostraResultats(int index, JsonObject json) {
         for (int i = index; i < index + 10; i++){
             System.out.println("~~~~Resultat numero " + (i + 1) + "~~~~");
@@ -167,7 +136,17 @@ public class Menu {
         }
     }
 
+    /**
+     * Comprova si la cadena introduida es un int
+     * @param str Cadena a comprovar
+     * @return cert si la cadena conte un int
+     */
+    private static boolean isNumeric(String str) {
+        return str.matches("-?\\d+(\\.\\d+)?");
+    }
+
     private void opcio3() {
+        String URL = "https://www.googleapis.com/youtube/v3/videos?id=vJc7s9OJYiY&key=" + API_KEY + "&part=statistics";
     }
 
     private void opcio4() {

@@ -1,3 +1,5 @@
+package model;
+
 /**
  * Created by angel on 02/12/2017.
  */
@@ -41,7 +43,7 @@ public class FavouritesModel {
 
     @Override
     public String toString() {
-        return "FavouritesModel{" +
+        return "model.FavouritesModel{" +
                 "tipusResultat='" + tipusResultat + '\'' +
                 ", titol='" + titol + '\'' +
                 ", descripcio='" + descripcio + '\'' +
