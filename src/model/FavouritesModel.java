@@ -9,6 +9,16 @@ public class FavouritesModel {
     private String descripcio;
     private String nomCanal;
     private String id;
+    private float percentatejeDeLiks;
+
+
+    public float getPercentatejeDeLiks() {
+        return percentatejeDeLiks;
+    }
+
+    public void setPercentatejeDeLiks(float percentatejeDeLiks) {
+        this.percentatejeDeLiks = percentatejeDeLiks;
+    }
 
     public String getId() {
         return id;
@@ -58,6 +68,7 @@ public class FavouritesModel {
                 ", descripcio='" + descripcio + '\'' +
                 ", nomCanal='" + nomCanal + '\'' +
                 ", id='" + id + '\'' +
+                ", likes=" +  percentatejeDeLiks +
                 '}';
     }
 }

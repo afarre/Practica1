@@ -1,7 +1,10 @@
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
+import model.FavouritesModel;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Scanner;
 
 
@@ -146,23 +149,24 @@ public class Menu {
     }
 
     private void opcio3() {
-        JsonArray favorits = jsonReader.lectura();
-        System.out.println(favorits);
-        for (int i = 0; i < favorits.size(); i++){
-            if (favorits.getAsJsonArray().get(i).getAsJsonObject().get("tipusResultat").equals("youtube#channel")){
+        ArrayList videos = new ArrayList();
 
-                System.out.println(favorits.get(0).getAsJsonObject().get("id"));
+        for(int i=0; jsonArray.size()<i; i++){
+            if (jsonArray.get(i).getAsJsonObject().get("tipusResultat").getAsString().equals("youtube#video")) {
+                videos.add(jsonArray.get(i));
             }
         }
-        //per a videos
-        String URL1 = "https://www.googleapis.com/youtube/v3/videos?id=vJc7s9OJYiY&key=" + API_KEY + "&part=statistics";
-        //per a canals
-        String URL2 = "https://www.googleapis.com/youtube/v3/channels?id=UCEOWFJSDlfEgM_iPduEuHeg&key=" + API_KEY + "&part=statistics";
-        //per a llistes
-        String URL3 = "https://www.googleapis.com/youtube/v3/playlists?id=PLMC9KNkIncKtPzgY-5rmhvj7fax8fdxoj&key=" + API_KEY + "&part=snippet";
+        for (int i=0; videos.size()>i; i++){
+            for (int j=1; j<videos.size();i++){
+                if (jsonArray.get(i).getAsJsonObject().get("percentatejeDeLiks").getAsFloat()<jsonArray.get(j).getAsJsonObject().get("percentatejeDeLiks").getAsFloat()){
+                    //Collection.s
+                }
+            }
+        }
     }
 
     private void opcio4() {
+
         //per a videos
         String URL1 = "https://www.googleapis.com/youtube/v3/videos?id=vJc7s9OJYiY&key=" + API_KEY + "&part=statistics";
         //per a canals

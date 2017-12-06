@@ -8,6 +8,8 @@ import java.io.IOException;
  * Created by angel on 02/12/2017.
  */
 public class GeneraJSON {
+    private String API_KEY = "AIzaSyCHI5qNldMo0BcX8iVv7Gnx9Zc0i1fcIQ0";
+
 
     /**
      * Crea un fitxer .json
@@ -30,6 +32,8 @@ public class GeneraJSON {
      * @return Un objecte Json extret del model de dades
      */
     JsonObject generaObjecte(int i, JsonObject json) {
+        JsonReader jsonReader = new JsonReader();
+
         FavouritesModel favouritesModel = new FavouritesModel();
         favouritesModel.setTipusResultat(json.get("items").getAsJsonArray().get(i).getAsJsonObject().get("id").getAsJsonObject().get("kind").getAsString());
         favouritesModel.setTitol(json.get("items").getAsJsonArray().get(i).getAsJsonObject().get("snippet").getAsJsonObject().get("title").getAsString());
@@ -48,6 +52,20 @@ public class GeneraJSON {
                 break;
         }
 
+        if (favouritesModel.getTipusResultat().equals("youtube#video")){
+            String URL1 = "https://www.googleapis.com/youtube/v3/videos?id=" + favouritesModel.getId() + "&key=" + API_KEY + "&part=statistics";
+            try {
+                JsonObject jsonobj = jsonReader.getJsonFromURL(URL1);
+                int liks = jsonobj.getAsJsonArray("items").get(0).getAsJsonObject().get("statistics").getAsJsonObject().get("likeCount").getAsInt();
+                int disliks = jsonobj.getAsJsonArray("items").get(0).getAsJsonObject().get("statistics").getAsJsonObject().get("dislikeCount").getAsInt();
+                float porcentatgeliks = 100*liks/(liks + disliks);
+
+                favouritesModel.setPercentatejeDeLiks(porcentatgeliks);
+
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
         Gson gson = new Gson();
         JsonParser jsonParser = new JsonParser();
         JsonElement element = jsonParser.parse(gson.toJson(favouritesModel));
