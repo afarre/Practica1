@@ -1,10 +1,10 @@
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
-import model.FavouritesModel;
+import org.json.JSONArray;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Collection;
+import java.util.Collections;
 import java.util.Scanner;
 
 
@@ -134,7 +134,7 @@ public class Menu {
             System.out.println("~~~~Resultat numero " + (i + 1) + "~~~~");
             System.out.println("    Tipus de resultat: " + json.get("items").getAsJsonArray().get(i).getAsJsonObject().get("id").getAsJsonObject().get("kind").getAsString());
             System.out.println("    Titol: " + json.get("items").getAsJsonArray().get(i).getAsJsonObject().get("snippet").getAsJsonObject().get("title").getAsString());
-            System.out.println("    Descripcio: " + json.get("items").getAsJsonArray().get(i).getAsJsonObject().get("snippet").getAsJsonObject().get("description").getAsString());
+            System.out.println("    Descripció: " + json.get("items").getAsJsonArray().get(i).getAsJsonObject().get("snippet").getAsJsonObject().get("description").getAsString());
             System.out.println("    Nom del canal al que correspon: " + json.get("items").getAsJsonArray().get(i).getAsJsonObject().get("snippet").getAsJsonObject().get("channelTitle").getAsString() + "\n");
         }
     }
@@ -149,19 +149,58 @@ public class Menu {
     }
 
     private void opcio3() {
-        ArrayList videos = new ArrayList();
+        //ArrayList<String> videos = new ArrayList<>();
+        ArrayList<JsonObject> videos = new ArrayList<>();
 
-        for(int i=0; jsonArray.size()<i; i++){
+        for(int i = 0; i < jsonArray.size(); i++){
             if (jsonArray.get(i).getAsJsonObject().get("tipusResultat").getAsString().equals("youtube#video")) {
-                videos.add(jsonArray.get(i));
+                videos.add(jsonArray.get(i).getAsJsonObject());
+                //videos.add(jsonArray.get(i).getAsJsonObject().getAsJsonObject("titol").getAsString());
             }
         }
-        for (int i=0; videos.size()>i; i++){
-            for (int j=1; j<videos.size();i++){
-                if (jsonArray.get(i).getAsJsonObject().get("percentatejeDeLiks").getAsFloat()<jsonArray.get(j).getAsJsonObject().get("percentatejeDeLiks").getAsFloat()){
-                    //Collection.s
-                }
+
+        /*
+        for(int i = 0; i < videos.size(); i++){
+            System.out.println("Titol: " + videos.get(i).get("titol"));
+            System.out.println("Likes: " + videos.get(i).get("percentatgeDeLikes"));
+        }
+        */
+
+        System.out.println("spm " + videos.size());
+
+        JSONArray aux = new JSONArray();
+        for (int i = 0; i < jsonArray.size(); i++){
+            aux.put(jsonArray.get(i));
+        }
+/*
+        for (int i = 0; i < jsonArray.size() - 1; i++){
+            for (int j = 0; j < jsonArray.size() - 1; i++){
+
+                if (aux.getJSONObject(i).get("percentatgeDeLikes") < aux.getJSONObject(j).get("percentatgeDeLikes"))
+                if (aux.get(i).getAsJsonObject().get("percentatgeDeLikes").getAsFloat() < jsonArray.get(j).getAsJsonObject().get("percentatgeDeLikes").getAsFloat()){
+                    Object object = jsonArray.get(j);
+                    jsonArray.p(j, jsonArray.get(i));
+                    jsonArray.put(i, object);
+                    Collections.swap(videos, i, j);
             }
+
+*/
+
+        for (int i = 0; i < videos.size(); i++){
+            for (int j = 0; j < videos.size(); j++){
+                System.out.println("1: " + videos.get(i).getAsJsonObject().get("percentatgeDeLikes").getAsFloat());
+                System.out.println("2: " + videos.get(j).getAsJsonObject().get("percentatgeDeLikes").getAsFloat());
+                if (videos.get(i).getAsJsonObject().get("percentatgeDeLikes").getAsFloat() < videos.get(j).getAsJsonObject().get("percentatgeDeLikes").getAsFloat()){
+                    Collections.swap(videos, i, j);
+                }
+
+            }
+        }
+
+        for (int i = 0; i < videos.size(); i++){
+            System.out.println("~~~~Video numero " + (i + 1) + "~~~~");
+            System.out.println("    Nom: " + videos.get(i).get("titol").getAsString());
+            System.out.println("    Percentatge de likes: " + videos.get(i).get("percentatgeDeLikes").getAsFloat());
         }
     }
 

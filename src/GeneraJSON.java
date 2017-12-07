@@ -26,7 +26,7 @@ public class GeneraJSON {
     }
 
     /**
-     * Converteix i retorna a JsonObject a partir d'un model de dades
+     * Converteix i retorna un JsonObject a partir d'un model de dades
      * @param i Index del array del json del qual poblarem el model de dades
      * @param json Json d'on volem extreure les dades
      * @return Un objecte Json extret del model de dades
@@ -53,14 +53,14 @@ public class GeneraJSON {
         }
 
         if (favouritesModel.getTipusResultat().equals("youtube#video")){
-            String URL1 = "https://www.googleapis.com/youtube/v3/videos?id=" + favouritesModel.getId() + "&key=" + API_KEY + "&part=statistics";
+            String URL = "https://www.googleapis.com/youtube/v3/videos?id=" + favouritesModel.getId() + "&key=" + API_KEY + "&part=statistics";
             try {
-                JsonObject jsonobj = jsonReader.getJsonFromURL(URL1);
-                int liks = jsonobj.getAsJsonArray("items").get(0).getAsJsonObject().get("statistics").getAsJsonObject().get("likeCount").getAsInt();
-                int disliks = jsonobj.getAsJsonArray("items").get(0).getAsJsonObject().get("statistics").getAsJsonObject().get("dislikeCount").getAsInt();
-                float porcentatgeliks = 100*liks/(liks + disliks);
+                JsonObject jsonobj = jsonReader.getJsonFromURL(URL);
+                int likes = jsonobj.getAsJsonArray("items").get(0).getAsJsonObject().get("statistics").getAsJsonObject().get("likeCount").getAsInt();
+                int dislikes = jsonobj.getAsJsonArray("items").get(0).getAsJsonObject().get("statistics").getAsJsonObject().get("dislikeCount").getAsInt();
+                float percentatgeLikes = 100*likes/(likes + dislikes);
 
-                favouritesModel.setPercentatejeDeLiks(porcentatgeliks);
+                favouritesModel.setPercentatgeDeLikes(percentatgeLikes);
 
             } catch (IOException e) {
                 e.printStackTrace();
