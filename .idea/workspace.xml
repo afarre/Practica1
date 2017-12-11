@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="c9f39f3b-2653-4a88-9b9b-bd3b130dffb4" name="Default" comment="">
+    <list default="true" id="c9f39f3b-2653-4a88-9b9b-bd3b130dffb4" name="Default" comment="Arreglat">
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/Practica1/Menu.class" afterPath="$PROJECT_DIR$/out/production/Practica1/Menu.class" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Menu.java" afterPath="$PROJECT_DIR$/src/Menu.java" />
     </list>
@@ -35,24 +36,15 @@
       <file leaf-file-name="Menu.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/Menu.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="276">
-              <caret line="110" column="0" lean-forward="false" selection-start-line="110" selection-start-column="0" selection-end-line="110" selection-end-column="0" />
+            <state relative-caret-position="153">
+              <caret line="169" column="31" lean-forward="false" selection-start-line="169" selection-start-column="31" selection-end-line="169" selection-end-column="31" />
               <folding>
                 <element signature="imports" expanded="true" />
                 <element signature="method#mostraMenu#0;class#Menu#0" expanded="false" />
                 <element signature="method#opcio1#0;class#Menu#0" expanded="false" />
+                <element signature="method#opcio2#0;class#Menu#0" expanded="false" />
                 <element signature="method#mostraResultats#0;class#Menu#0" expanded="false" />
               </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="favoritePlaces.json" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/favoritePlaces.json">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="0">
-              <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="738" />
-              <folding />
             </state>
           </provider>
         </entry>
@@ -147,8 +139,8 @@
         <option value="$PROJECT_DIR$/src/JsonReader.java" />
         <option value="$PROJECT_DIR$/src/model/FavouritesModel.java" />
         <option value="$PROJECT_DIR$/src/GeneraJSON.java" />
-        <option value="$PROJECT_DIR$/favoritePlaces.json" />
         <option value="$PROJECT_DIR$/src/Main.java" />
+        <option value="$PROJECT_DIR$/favoritePlaces.json" />
         <option value="$PROJECT_DIR$/src/Menu.java" />
       </list>
     </option>
@@ -646,7 +638,14 @@
       <option name="project" value="LOCAL" />
       <updated>1512669947851</updated>
     </task>
-    <option name="localTasksCounter" value="6" />
+    <task id="LOCAL-00006" summary="Arreglada la opcio 2">
+      <created>1512990414758</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1512990414758</updated>
+    </task>
+    <option name="localTasksCounter" value="7" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
@@ -674,7 +673,7 @@
       <window_info id="Capture Analysis" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.41902605" sideWeight="0.5021482" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.42015857" sideWeight="0.49785176" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.5537939" sideWeight="0.49785176" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3295583" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Properties" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3295583" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
@@ -723,11 +722,12 @@
     <MESSAGE value="Per generar el fitxer .json ara guarde tot com a text pla. Fa falta expecificar que es JsonObject i JsonArray" />
     <MESSAGE value="Opcio 2 acabada. Fitxer de favoritePlaces.json correctament generat." />
     <MESSAGE value="Arreglar error d'IndexOutOfBounce en la opcio 3." />
-    <option name="LAST_COMMIT_MESSAGE" value="Arreglar error d'IndexOutOfBounce en la opcio 3." />
+    <MESSAGE value="Arreglada la opcio 2" />
+    <option name="LAST_COMMIT_MESSAGE" value="Arreglada la opcio 2" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
-      <option name="time" value="6" />
+      <option name="time" value="7" />
     </breakpoint-manager>
     <watches-manager />
   </component>
@@ -795,6 +795,7 @@
             <element signature="imports" expanded="true" />
             <element signature="method#mostraMenu#0;class#Menu#0" expanded="false" />
             <element signature="method#opcio1#0;class#Menu#0" expanded="false" />
+            <element signature="method#opcio2#0;class#Menu#0" expanded="false" />
             <element signature="method#mostraResultats#0;class#Menu#0" expanded="false" />
           </folding>
         </state>
@@ -859,6 +860,7 @@
             <element signature="imports" expanded="true" />
             <element signature="method#mostraMenu#0;class#Menu#0" expanded="false" />
             <element signature="method#opcio1#0;class#Menu#0" expanded="false" />
+            <element signature="method#opcio2#0;class#Menu#0" expanded="false" />
             <element signature="method#mostraResultats#0;class#Menu#0" expanded="false" />
           </folding>
         </state>
@@ -880,6 +882,7 @@
             <element signature="imports" expanded="true" />
             <element signature="method#mostraMenu#0;class#Menu#0" expanded="false" />
             <element signature="method#opcio1#0;class#Menu#0" expanded="false" />
+            <element signature="method#opcio2#0;class#Menu#0" expanded="false" />
             <element signature="method#mostraResultats#0;class#Menu#0" expanded="false" />
           </folding>
         </state>
@@ -975,6 +978,7 @@
             <element signature="imports" expanded="true" />
             <element signature="method#mostraMenu#0;class#Menu#0" expanded="false" />
             <element signature="method#opcio1#0;class#Menu#0" expanded="false" />
+            <element signature="method#opcio2#0;class#Menu#0" expanded="false" />
             <element signature="method#mostraResultats#0;class#Menu#0" expanded="false" />
           </folding>
         </state>
@@ -996,6 +1000,7 @@
             <element signature="imports" expanded="true" />
             <element signature="method#mostraMenu#0;class#Menu#0" expanded="false" />
             <element signature="method#opcio1#0;class#Menu#0" expanded="false" />
+            <element signature="method#opcio2#0;class#Menu#0" expanded="false" />
             <element signature="method#mostraResultats#0;class#Menu#0" expanded="false" />
           </folding>
         </state>
@@ -1113,6 +1118,7 @@
             <element signature="imports" expanded="true" />
             <element signature="method#mostraMenu#0;class#Menu#0" expanded="false" />
             <element signature="method#opcio1#0;class#Menu#0" expanded="false" />
+            <element signature="method#opcio2#0;class#Menu#0" expanded="false" />
             <element signature="method#mostraResultats#0;class#Menu#0" expanded="false" />
           </folding>
         </state>
@@ -1177,6 +1183,7 @@
             <element signature="imports" expanded="true" />
             <element signature="method#mostraMenu#0;class#Menu#0" expanded="false" />
             <element signature="method#opcio1#0;class#Menu#0" expanded="false" />
+            <element signature="method#opcio2#0;class#Menu#0" expanded="false" />
             <element signature="method#mostraResultats#0;class#Menu#0" expanded="false" />
           </folding>
         </state>
@@ -1198,6 +1205,7 @@
             <element signature="imports" expanded="true" />
             <element signature="method#mostraMenu#0;class#Menu#0" expanded="false" />
             <element signature="method#opcio1#0;class#Menu#0" expanded="false" />
+            <element signature="method#opcio2#0;class#Menu#0" expanded="false" />
             <element signature="method#mostraResultats#0;class#Menu#0" expanded="false" />
           </folding>
         </state>
@@ -1226,14 +1234,6 @@
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/.gitignore" />
-    <entry file="file://$PROJECT_DIR$/favoritePlaces.json">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="738" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/model/FavouritesModel.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="105">
@@ -1295,14 +1295,23 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/favoritePlaces.json">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="42" lean-forward="true" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="1292" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/Menu.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="276">
-          <caret line="110" column="0" lean-forward="false" selection-start-line="110" selection-start-column="0" selection-end-line="110" selection-end-column="0" />
+        <state relative-caret-position="153">
+          <caret line="169" column="31" lean-forward="false" selection-start-line="169" selection-start-column="31" selection-end-line="169" selection-end-column="31" />
           <folding>
             <element signature="imports" expanded="true" />
             <element signature="method#mostraMenu#0;class#Menu#0" expanded="false" />
             <element signature="method#opcio1#0;class#Menu#0" expanded="false" />
+            <element signature="method#opcio2#0;class#Menu#0" expanded="false" />
             <element signature="method#mostraResultats#0;class#Menu#0" expanded="false" />
           </folding>
         </state>

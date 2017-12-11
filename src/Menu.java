@@ -84,7 +84,7 @@ public class Menu {
         System.out.println("Introduiex el que vols cercar:");
         Scanner read = new Scanner(System.in);
         String queryTerm = read.nextLine();
-        String URL = "https://www.googleapis.com/youtube/v3/search?part=snippet&q=" + queryTerm.replace(" ", "-") + "&key=" + API_KEY + "&maxResults=10";
+        String URL = "https://www.googleapis.com/youtube/v3/search?part=snippet&q=" + queryTerm.replace(" ", "-") + "&key=" + API_KEY + "&maxResults=10&pageToken=";
         ArrayList<String> previousTokens = new ArrayList<>();
         try {
             JsonObject json = jsonReader.getJsonFromURL(URL);
@@ -98,16 +98,16 @@ public class Menu {
             String guardar = read.nextLine();
             do {
                 if (guardar.toUpperCase().equals("NEXT")){
-                    String URL2 = "https://www.googleapis.com/youtube/v3/search?part=snippet&q=" + queryTerm.replace(" ", "-") + "&key=" + API_KEY + "&maxResults=10&pageToken=" + json.get("nextPageToken").getAsString();
+                    URL = "https://www.googleapis.com/youtube/v3/search?part=snippet&q=" + queryTerm.replace(" ", "-") + "&key=" + API_KEY + "&maxResults=10&pageToken=" + json.get("nextPageToken").getAsString();
                     previousTokens.add(json.get("nextPageToken").getAsString());
-                    JsonObject json2 = jsonReader.getJsonFromURL(URL2);
-                    mostraResultats(i, json2);
+                    json = jsonReader.getJsonFromURL(URL);
+                    mostraResultats(i, json);
                     acum++;
                     System.out.println("Selecciona un per desar, si vols veure els seguents, els anteriors o parar:");
                 }else if (guardar.toUpperCase().equals("BACK")){
-                    String URL2 = "https://www.googleapis.com/youtube/v3/search?part=snippet&q=" + queryTerm.replace(" ", "-") + "&key=" + API_KEY + "&maxResults=10&pageToken=" + previousTokens.get(--acum);
-                    JsonObject json2 = jsonReader.getJsonFromURL(URL2);
-                    mostraResultats(i, json2);
+                    URL = "https://www.googleapis.com/youtube/v3/search?part=snippet&q=" + queryTerm.replace(" ", "-") + "&key=" + API_KEY + "&maxResults=10&pageToken=" + previousTokens.get(--acum);
+                    json = jsonReader.getJsonFromURL(URL);
+                    mostraResultats(i, json);
                     System.out.println("Selecciona un per desar, si vols veure els seguents, els anteriors o parar:");
                 }else if (guardar.toUpperCase().equals("STOP")){
                     return;
@@ -157,51 +157,26 @@ public class Menu {
     }
 
     private void opcio3() {
-        //ArrayList<String> videos = new ArrayList<>();
         ArrayList<JsonObject> videos = new ArrayList<>();
 
         for(int i = 0; i < jsonArray.size(); i++){
             if (jsonArray.get(i).getAsJsonObject().get("tipusResultat").getAsString().equals("youtube#video")) {
                 videos.add(jsonArray.get(i).getAsJsonObject());
-                //videos.add(jsonArray.get(i).getAsJsonObject().getAsJsonObject("titol").getAsString());
             }
         }
-
-        /*
-        for(int i = 0; i < videos.size(); i++){
-            System.out.println("Titol: " + videos.get(i).get("titol"));
-            System.out.println("Likes: " + videos.get(i).get("percentatgeDeLikes"));
-        }
-        */
-
-        System.out.println("spm " + videos.size());
 
         JSONArray aux = new JSONArray();
         for (int i = 0; i < jsonArray.size(); i++){
             aux.put(jsonArray.get(i));
         }
-/*
-        for (int i = 0; i < jsonArray.size() - 1; i++){
-            for (int j = 0; j < jsonArray.size() - 1; i++){
-
-                if (aux.getJSONObject(i).get("percentatgeDeLikes") < aux.getJSONObject(j).get("percentatgeDeLikes"))
-                if (aux.get(i).getAsJsonObject().get("percentatgeDeLikes").getAsFloat() < jsonArray.get(j).getAsJsonObject().get("percentatgeDeLikes").getAsFloat()){
-                    Object object = jsonArray.get(j);
-                    jsonArray.p(j, jsonArray.get(i));
-                    jsonArray.put(i, object);
-                    Collections.swap(videos, i, j);
-            }
-
-*/
 
         for (int i = 0; i < videos.size(); i++){
             for (int j = 0; j < videos.size(); j++){
                 System.out.println("1: " + videos.get(i).getAsJsonObject().get("percentatgeDeLikes").getAsFloat());
                 System.out.println("2: " + videos.get(j).getAsJsonObject().get("percentatgeDeLikes").getAsFloat());
-                if (videos.get(i).getAsJsonObject().get("percentatgeDeLikes").getAsFloat() < videos.get(j).getAsJsonObject().get("percentatgeDeLikes").getAsFloat()){
+                if (videos.get(i).getAsJsonObject().get("percentatgeDeLikes").getAsFloat() > videos.get(j).getAsJsonObject().get("percentatgeDeLikes").getAsFloat()){
                     Collections.swap(videos, i, j);
                 }
-
             }
         }
 
