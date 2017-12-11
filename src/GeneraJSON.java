@@ -58,7 +58,7 @@ public class GeneraJSON {
                 JsonObject jsonobj = jsonReader.getJsonFromURL(URL);
                 int likes = jsonobj.getAsJsonArray("items").get(0).getAsJsonObject().get("statistics").getAsJsonObject().get("likeCount").getAsInt();
                 int dislikes = jsonobj.getAsJsonArray("items").get(0).getAsJsonObject().get("statistics").getAsJsonObject().get("dislikeCount").getAsInt();
-                float percentatgeLikes = 100*likes/(likes + dislikes);
+                int percentatgeLikes = 100*likes/(likes + dislikes);
 
                 favouritesModel.setPercentatgeDeLikes(percentatgeLikes);
 

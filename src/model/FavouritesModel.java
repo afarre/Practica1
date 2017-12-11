@@ -9,14 +9,14 @@ public class FavouritesModel {
     private String descripcio;
     private String nomCanal;
     private String id;
-    private float percentatgeDeLikes;
+    private int percentatgeDeLikes;
 
 
     public float getPercentatgeDeLikes() {
         return percentatgeDeLikes;
     }
 
-    public void setPercentatgeDeLikes(float percentatgeDeLikes) {
+    public void setPercentatgeDeLikes(int percentatgeDeLikes) {
         this.percentatgeDeLikes = percentatgeDeLikes;
     }
 

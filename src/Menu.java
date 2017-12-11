@@ -98,6 +98,7 @@ public class Menu {
             String guardar = read.nextLine();
             do {
                 if (guardar.toUpperCase().equals("NEXT")){
+                    //guardar.compareTo("test");
                     URL = "https://www.googleapis.com/youtube/v3/search?part=snippet&q=" + queryTerm.replace(" ", "-") + "&key=" + API_KEY + "&maxResults=10&pageToken=" + json.get("nextPageToken").getAsString();
                     previousTokens.add(json.get("nextPageToken").getAsString());
                     json = jsonReader.getJsonFromURL(URL);
@@ -172,9 +173,7 @@ public class Menu {
 
         for (int i = 0; i < videos.size(); i++){
             for (int j = 0; j < videos.size(); j++){
-                System.out.println("1: " + videos.get(i).getAsJsonObject().get("percentatgeDeLikes").getAsFloat());
-                System.out.println("2: " + videos.get(j).getAsJsonObject().get("percentatgeDeLikes").getAsFloat());
-                if (videos.get(i).getAsJsonObject().get("percentatgeDeLikes").getAsFloat() > videos.get(j).getAsJsonObject().get("percentatgeDeLikes").getAsFloat()){
+                  if (videos.get(i).getAsJsonObject().get("percentatgeDeLikes").getAsFloat() > videos.get(j).getAsJsonObject().get("percentatgeDeLikes").getAsFloat()){
                     Collections.swap(videos, i, j);
                 }
             }
@@ -183,7 +182,7 @@ public class Menu {
         for (int i = 0; i < videos.size(); i++){
             System.out.println("~~~~Video numero " + (i + 1) + "~~~~");
             System.out.println("    Nom: " + videos.get(i).get("titol").getAsString());
-            System.out.println("    Percentatge de likes: " + videos.get(i).get("percentatgeDeLikes").getAsFloat());
+            System.out.println("    Percentatge de likes: " + videos.get(i).get("percentatgeDeLikes").getAsFloat() + "%");
         }
     }
 
