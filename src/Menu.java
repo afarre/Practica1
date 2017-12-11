@@ -84,11 +84,13 @@ public class Menu {
         System.out.println("Introduiex el que vols cercar:");
         Scanner read = new Scanner(System.in);
         String queryTerm = read.nextLine();
-        String URL = "https://www.googleapis.com/youtube/v3/search?part=snippet&q=" + queryTerm.replace(" ", "-") + "&key=" + API_KEY + "&maxResults=50";
+        String URL = "https://www.googleapis.com/youtube/v3/search?part=snippet&q=" + queryTerm.replace(" ", "-") + "&key=" + API_KEY + "&maxResults=10";
+        ArrayList<String> previousTokens = new ArrayList<>();
         try {
             JsonObject json = jsonReader.getJsonFromURL(URL);
 
             int i = 0;
+            int acum = 0;
             mostraResultats(i, json);
 
             System.out.println("Selecciona un per desar, si vols veure els seguents, els anteriors o parar:");
@@ -96,16 +98,20 @@ public class Menu {
             String guardar = read.nextLine();
             do {
                 if (guardar.toUpperCase().equals("NEXT")){
-                    i = i + 10;
-                    mostraResultats(i, json);
+                    String URL2 = "https://www.googleapis.com/youtube/v3/search?part=snippet&q=" + queryTerm.replace(" ", "-") + "&key=" + API_KEY + "&maxResults=10&pageToken=" + json.get("nextPageToken").getAsString();
+                    previousTokens.add(json.get("nextPageToken").getAsString());
+                    JsonObject json2 = jsonReader.getJsonFromURL(URL2);
+                    mostraResultats(i, json2);
+                    acum++;
                     System.out.println("Selecciona un per desar, si vols veure els seguents, els anteriors o parar:");
                 }else if (guardar.toUpperCase().equals("BACK")){
-                    i = i - 10;
-                    mostraResultats(i, json);
+                    String URL2 = "https://www.googleapis.com/youtube/v3/search?part=snippet&q=" + queryTerm.replace(" ", "-") + "&key=" + API_KEY + "&maxResults=10&pageToken=" + previousTokens.get(--acum);
+                    JsonObject json2 = jsonReader.getJsonFromURL(URL2);
+                    mostraResultats(i, json2);
                     System.out.println("Selecciona un per desar, si vols veure els seguents, els anteriors o parar:");
                 }else if (guardar.toUpperCase().equals("STOP")){
                     return;
-                }else if (isNumeric(guardar)){
+                }else if (isNumeric(guardar) && Integer.parseInt(guardar) < 11 && Integer.parseInt(guardar) > 0){
                     int intGuardar = Integer.parseInt(guardar);
                     GeneraJSON generaJSON = new GeneraJSON();
                     jsonArray.add(generaJSON.generaObjecte(intGuardar - 1, json));
@@ -120,7 +126,7 @@ public class Menu {
         } catch (IOException e) {
             e.printStackTrace();
         } catch (IndexOutOfBoundsException e){
-            System.err.println("Ja no hi han mes resultats de cerca!");
+            System.out.println("Ja no hi han mes resultats de cerca!");
         }
     }
 
@@ -130,12 +136,14 @@ public class Menu {
      * @param json Objecte JsonObject que conte la informacio la qual volem printar
      */
     private void mostraResultats(int index, JsonObject json) {
+        int aux = 1;
         for (int i = index; i < index + 10; i++){
-            System.out.println("~~~~Resultat numero " + (i + 1) + "~~~~");
+            System.out.println("~~~~Resultat numero " + (aux) + "~~~~");
             System.out.println("    Tipus de resultat: " + json.get("items").getAsJsonArray().get(i).getAsJsonObject().get("id").getAsJsonObject().get("kind").getAsString());
             System.out.println("    Titol: " + json.get("items").getAsJsonArray().get(i).getAsJsonObject().get("snippet").getAsJsonObject().get("title").getAsString());
             System.out.println("    Descripció: " + json.get("items").getAsJsonArray().get(i).getAsJsonObject().get("snippet").getAsJsonObject().get("description").getAsString());
             System.out.println("    Nom del canal al que correspon: " + json.get("items").getAsJsonArray().get(i).getAsJsonObject().get("snippet").getAsJsonObject().get("channelTitle").getAsString() + "\n");
+            aux++;
         }
     }
 
