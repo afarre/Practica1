@@ -19,8 +19,7 @@ public class Menu {
     void mostraMenu() {
         int i;
         do {
-            System.out.println();
-            System.out.println("1. Cerca de Resultats");
+            System.out.println("\n1. Cerca de Resultats");
             System.out.println("2. Desar Preferits");
             System.out.println("3. Millors Videos");
             System.out.println("4. Estadístiques");
