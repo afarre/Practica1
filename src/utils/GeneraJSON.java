@@ -1,3 +1,5 @@
+package utils;
+
 import com.google.gson.*;
 import model.FavouritesModel;
 
@@ -15,7 +17,7 @@ public class GeneraJSON {
      * Crea un fitxer .json
      * @param array Array de dades a partir del qual generar el fitxer .json
      */
-    void guardaFitxer(JsonArray array) {
+    public void guardaFitxer(JsonArray array) {
         try { FileWriter file = new FileWriter("favoritePlaces.json");
             file.write(array.toString());
             file.flush();
@@ -31,7 +33,7 @@ public class GeneraJSON {
      * @param json Json d'on volem extreure les dades
      * @return Un objecte Json extret del model de dades
      */
-    JsonObject generaObjecte(int i, JsonObject json) {
+    public JsonObject generaObjecte(int i, JsonObject json) {
         JsonReader jsonReader = new JsonReader();
 
         FavouritesModel favouritesModel = new FavouritesModel();

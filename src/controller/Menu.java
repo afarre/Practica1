@@ -1,10 +1,17 @@
+package controller;
+
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 import org.json.JSONArray;
+import utils.GeneraHTML;
+import utils.GeneraJSON;
+import utils.JsonReader;
 
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.InputMismatchException;
 import java.util.Scanner;
 
 
@@ -13,10 +20,10 @@ import java.util.Scanner;
  */
 public class Menu {
     private JsonReader jsonReader = new JsonReader();
-    private JsonArray jsonArray = new JsonArray();
+    private JsonArray favourites = new JsonArray();
     private String API_KEY = "AIzaSyCHI5qNldMo0BcX8iVv7Gnx9Zc0i1fcIQ0";
 
-    void mostraMenu() {
+    public void mostraMenu() {
         int i;
         do {
             System.out.println("\n1. Cerca de Resultats");
@@ -28,13 +35,14 @@ public class Menu {
             System.out.println("7. Sortir\n");
             System.out.println("\nSel·lecciona una opcio:");
 
-            Scanner read = new Scanner(System.in);
-            i = read.nextInt();
+            i = readInt();
 
             while (i < 1 || i > 7) {
                 System.out.println("Opcio del menu incorrecta! Introdueix l'opcio de nou:");
-                i = read.nextInt();
+                i = readInt();
             }
+
+            GeneraHTML generaHTML = new GeneraHTML(API_KEY);
 
             switch (i){
                 case 1:
@@ -50,20 +58,34 @@ public class Menu {
                     opcio4();
                     break;
                 case 5:
-                    opcio5();
+                    opcio5(generaHTML);
                     break;
                 case 6:
-                    opcio6();
+                    opcio6(generaHTML);
                     break;
             }
         }while(i != 7);
+    }
+
+    /**
+     * Comprova que l'usuari introduiex un enter
+     * @return El numero introduit per l'usuari o -1 en cas de que no hagi introduit un numero
+     */
+    private int readInt(){
+        try {
+            Scanner read = new Scanner(System.in);
+            return read.nextInt();
+        }catch (InputMismatchException ignored){
+        }
+        return -1;
     }
 
     private void opcio1() {
         System.out.println("Introduiex el que vols cercar:");
         Scanner read = new Scanner(System.in);
         String queryTerm = read.nextLine();
-        String URL = "https://www.googleapis.com/youtube/v3/search?part=snippet&q=" + queryTerm + "&key=" + API_KEY;
+        String URL = "https://www.googleapis.com/youtube/v3/search?part=snippet&q=" + queryTerm.replace(" ", "-") + "&key=" + API_KEY;
+        System.out.println(URL);
         try {
             JsonObject json = jsonReader.getJsonFromURL(URL);
 
@@ -114,8 +136,8 @@ public class Menu {
                 }else if (isNumeric(guardar) && Integer.parseInt(guardar) < 11 && Integer.parseInt(guardar) > 0){
                     int intGuardar = Integer.parseInt(guardar);
                     GeneraJSON generaJSON = new GeneraJSON();
-                    jsonArray.add(generaJSON.generaObjecte(intGuardar - 1, json));
-                    generaJSON.guardaFitxer(jsonArray);
+                    favourites.add(generaJSON.generaObjecte(intGuardar - 1, json));
+                    generaJSON.guardaFitxer(favourites);
                     return;
                 }else{
                     System.out.println("Aquesta no es una opcio valida! Introdueix una opcio de nou: ");
@@ -159,15 +181,15 @@ public class Menu {
     private void opcio3() {
         ArrayList<JsonObject> videos = new ArrayList<>();
 
-        for(int i = 0; i < jsonArray.size(); i++){
-            if (jsonArray.get(i).getAsJsonObject().get("tipusResultat").getAsString().equals("youtube#video")) {
-                videos.add(jsonArray.get(i).getAsJsonObject());
+        for(int i = 0; i < favourites.size(); i++){
+            if (favourites.get(i).getAsJsonObject().get("tipusResultat").getAsString().equals("youtube#video")) {
+                videos.add(favourites.get(i).getAsJsonObject());
             }
         }
 
         JSONArray aux = new JSONArray();
-        for (int i = 0; i < jsonArray.size(); i++){
-            aux.put(jsonArray.get(i));
+        for (int i = 0; i < favourites.size(); i++){
+            aux.put(favourites.get(i));
         }
 
         for (int i = 0; i < videos.size(); i++){
@@ -196,11 +218,59 @@ public class Menu {
 
     }
 
-    private void opcio5() {
+    private void opcio5(GeneraHTML generaHTML) {
+        try {
+            String body;
+            for (int i = 0; i < favourites.size(); i++){
+                if (favourites.getAsJsonArray().get(i).getAsJsonObject().get("tipusResultat").getAsString().equals("youtube#playlist")){
+                    String URL = "https://www.googleapis.com/youtube/v3/playlistItems?part=snippet&maxResults=50&playlistId=" + favourites.getAsJsonArray().get(i).getAsJsonObject().get("id").getAsString() + "&key=" + API_KEY;
+                    JsonObject json = jsonReader.getJsonFromURL(URL);
+                    body = generaHTML.header(favourites.getAsJsonArray().get(i).getAsJsonObject().get("titol").getAsString() + ": " + json.get("items").getAsJsonArray().size() + " videos.", 1);
 
+                    for (int j = 0; j < json.get("items").getAsJsonArray().size(); j++){
+                        body = body + generaHTML.header(json.get("items").getAsJsonArray().get(j).getAsJsonObject().get("snippet").getAsJsonObject().get("title").getAsString(), 4) + "\n";
+                        body = body + generaHTML.enllaç("https://www.youtube.com/watch?v=" + json.get("items").getAsJsonArray().get(j).getAsJsonObject().get("snippet").getAsJsonObject().get("resourceId").getAsJsonObject().get("videoId").getAsString(), generaHTML.img(getMillorImatge(json, j),"Image not found!", 200) + "\n") + "\n";
+                    }
+                    generaHTML.creaPlantilla(favourites.getAsJsonArray().get(i).getAsJsonObject().get("titol").getAsString(), body);
+                }
+            }
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
-    private void opcio6() {
+    /**
+     * Obte la URL de la imatge amb millor qualitat amb controls d'errors
+     * @param json Json d'on podem llegir les diferents imatges amb diferents qualitats a escollir
+     * @param j Index que indica quin element del json s'ha de llegir
+     * @return La URL de la imatge amb millor qualitat
+     */
+    private String getMillorImatge(JsonObject json, int j){
+        try {
+            return json.get("items").getAsJsonArray().get(j).getAsJsonObject().get("snippet").getAsJsonObject().get("thumbnails").getAsJsonObject().get("maxres").getAsJsonObject().get("url").getAsString();
+        }catch (NullPointerException a){
+            try {
+                return json.get("items").getAsJsonArray().get(j).getAsJsonObject().get("snippet").getAsJsonObject().get("thumbnails").getAsJsonObject().get("standard").getAsJsonObject().get("url").getAsString();
+            }catch (NullPointerException b){
+                try {
+                    return json.get("items").getAsJsonArray().get(j).getAsJsonObject().get("snippet").getAsJsonObject().get("thumbnails").getAsJsonObject().get("high").getAsJsonObject().get("url").getAsString();
+                }catch (NullPointerException c){
+                    try {
+                        return json.get("items").getAsJsonArray().get(j).getAsJsonObject().get("snippet").getAsJsonObject().get("thumbnails").getAsJsonObject().get("medium").getAsJsonObject().get("url").getAsString();
+                    }catch (NullPointerException d){
+                        try {
+                            return json.get("items").getAsJsonArray().get(j).getAsJsonObject().get("snippet").getAsJsonObject().get("thumbnails").getAsJsonObject().get("default").getAsJsonObject().get("url").getAsString();
+                        }catch (NullPointerException e){
+                            return "No image found";
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    private void opcio6(GeneraHTML generaHTML) {
 
     }
 

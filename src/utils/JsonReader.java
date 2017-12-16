@@ -1,4 +1,4 @@
-/**
+package utils; /**
  * Created by angel on 01/12/2017.
  */
 import com.google.gson.Gson;
@@ -9,7 +9,7 @@ import java.io.*;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
-class JsonReader {
+public class JsonReader {
 
     /**
      * Carrega i llegeix el fitxer Json corresponent
