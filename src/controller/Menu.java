@@ -2,7 +2,6 @@ package controller;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
 import org.json.JSONArray;
 import utils.GeneraHTML;
 import utils.GeneraJSON;
@@ -23,8 +22,13 @@ public class Menu {
     private JsonArray favourites = new JsonArray();
     private String API_KEY = "AIzaSyCHI5qNldMo0BcX8iVv7Gnx9Zc0i1fcIQ0";
 
+    /**
+     * Mostra el menu permetent seleccionar opcions de la 1 a la 7 incloses amb control d'errors
+     */
     public void mostraMenu() {
         int i;
+        GeneraHTML generaHTML = new GeneraHTML(API_KEY);
+        GeneraJSON generaJSON = new GeneraJSON();
         do {
             System.out.println("\n1. Cerca de Resultats");
             System.out.println("2. Desar Preferits");
@@ -41,9 +45,6 @@ public class Menu {
                 System.out.println("Opcio del menu incorrecta! Introdueix l'opcio de nou:");
                 i = readInt();
             }
-
-            GeneraHTML generaHTML = new GeneraHTML(API_KEY);
-            GeneraJSON generaJSON = new GeneraJSON();
 
             switch (i){
                 case 1:
@@ -81,6 +82,9 @@ public class Menu {
         return -1;
     }
 
+    /**
+     * Permet introduir a l'usuari un text de cerca i mostra informacio dels 3 primers resultats
+     */
     private void opcio1() {
         System.out.println("Introduiex el que vols cercar:");
         Scanner read = new Scanner(System.in);
@@ -101,6 +105,11 @@ public class Menu {
         }
     }
 
+    /**
+     * Permet al usuari cercar en base a un text introduit, la navegacio dels resultats de la cerca en blocs de 10
+     * i el guardar el resultat desitjat en un fitxer json
+     * @param generaJSON Clase amb funcionalitats que ens permeten generar un fitxer json
+     */
     private void opcio2(GeneraJSON generaJSON) {
         System.out.println("Introduiex el que vols cercar:");
         Scanner read = new Scanner(System.in);
@@ -177,6 +186,9 @@ public class Menu {
         return str.matches("-?\\d+(\\.\\d+)?");
     }
 
+    /**
+     * Mostra els videos guardats en el fitxer de favorits ordenats segons els percentatges de like de major a menor
+     */
     private void opcio3() {
         ArrayList<JsonObject> videos = new ArrayList<>();
 
@@ -217,6 +229,12 @@ public class Menu {
 
     }
 
+    /**
+     * Genera un fitxer html que mostra una llista amb el nom i imatge del video amb el seu enllaç per cada
+     * playlist guardada al fitxer de favorits
+     * @param generaHTML Clase amb funcionalitats que ens permeten generar un fitxer html
+     * @param generaJSON Clase amb funcionalitats que ens permeten generar un fitxer json
+     */
     private void opcio5(GeneraHTML generaHTML, GeneraJSON generaJSON) {
         try {
             String body;
@@ -240,6 +258,11 @@ public class Menu {
         }
     }
 
+    /**
+     * Genera un fitxer en html que mostra en una graella els thumbnails de tots els resultats desatsa a favorits
+     * amb un enllaç al seu video corresponent
+     * @param generaHTML Clase amb funcionalitats que ens permeten generar un fitxer html
+     */
     private void opcio6(GeneraHTML generaHTML) {
         JsonArray thumbnailArray =  new JsonArray();
         for (int i = 0; i < favourites.size(); i++) {

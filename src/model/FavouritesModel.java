@@ -1,9 +1,6 @@
 package model;
 
 import com.google.gson.JsonArray;
-import com.google.gson.JsonObject;
-
-import java.util.ArrayList;
 
 /**
  * Created by angel on 02/12/2017.

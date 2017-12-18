@@ -15,6 +15,7 @@ public class JsonReader {
      * Carrega i llegeix el fitxer Json corresponent
      * @return el fitxer Json llegit en forma JsonObject
      */
+    @Deprecated
     JsonArray lectura(){
         //JsonObject jsonObject = new JsonObject();
         JsonArray jsonArray = new JsonArray();
