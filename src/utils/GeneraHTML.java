@@ -34,8 +34,8 @@ public class GeneraHTML {
         return "<h" + header + ">" + title + "</h" + header + ">";
     }
 
-    public String img(String src, String alt, int height, int lenght){
-        return "<img src=\"" + src + "\" height=\"" + height + "\" width=\"" + lenght + "\" alt=\"" + alt + "\"/>";
+    public String img(String src, String alt, int height, int width){
+        return "<img src=\"" + src + "\" height=\"" + height + "\" width=\"" + width + "\" alt=\"" + alt + "\"/>";
     }
 
     public String enllaç (String href, String elem){
@@ -58,6 +58,10 @@ public class GeneraHTML {
         return  "       <td>\n" +
                             element +
                 "       </td>\n";
+    }
+
+    public String generaIframe(String url, int height, int width){
+        return "<iframe width=\"" + width + "\" height=\"" + height + "\" src=\"" + url + "\"></iframe>" + "\n";
     }
 
 }

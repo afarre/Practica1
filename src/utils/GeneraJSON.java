@@ -45,53 +45,47 @@ public class GeneraJSON {
         favouritesModel.setNomCanal(json.get("items").getAsJsonArray().get(i).getAsJsonObject().get("snippet").getAsJsonObject().get("channelTitle").getAsString());
 
         switch (favouritesModel.getTipusResultat()) {
-            case "youtube#channel":
-                favouritesModel.setId(json.get("items").getAsJsonArray().get(i).getAsJsonObject().get("id").getAsJsonObject().get("channelId").getAsString());
+            case "youtube#video":
+                favouritesModel.setId(json.get("items").getAsJsonArray().get(i).getAsJsonObject().get("id").getAsJsonObject().get("videoId").getAsString());
+                String URL = "https://www.googleapis.com/youtube/v3/videos?id=" + favouritesModel.getId() + "&key=" + API_KEY + "&part=statistics";
+                try {
+                    JsonObject jsonobj = jsonReader.getJsonFromURL(URL);
+                    int likes = jsonobj.getAsJsonArray("items").get(0).getAsJsonObject().get("statistics").getAsJsonObject().get("likeCount").getAsInt();
+                    int dislikes = jsonobj.getAsJsonArray("items").get(0).getAsJsonObject().get("statistics").getAsJsonObject().get("dislikeCount").getAsInt();
+                    int percentatgeLikes = 100 * likes / (likes + dislikes);
+
+                    favouritesModel.setPercentatgeDeLikes(percentatgeLikes);
+                    favouritesModel.setThumbnails(jsonParser.parse("[\n\"" + getMillorImatge(json, i) + "\"\n]").getAsJsonArray());
+                    favouritesModel.setURL(jsonParser.parse("[\n\"" + "https://www.youtube.com/embed/" + json.get("items").getAsJsonArray().get(i).getAsJsonObject().get("id").getAsJsonObject().get("videoId").getAsString() + "\"\n]").getAsJsonArray());
+
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
                 break;
             case "youtube#playlist":
                 favouritesModel.setId(json.get("items").getAsJsonArray().get(i).getAsJsonObject().get("id").getAsJsonObject().get("playlistId").getAsString());
-                break;
-            case "youtube#video":
-                favouritesModel.setId(json.get("items").getAsJsonArray().get(i).getAsJsonObject().get("id").getAsJsonObject().get("videoId").getAsString());
-                break;
-        }
+                URL = "https://www.googleapis.com/youtube/v3/playlistItems?part=snippet&maxResults=50&playlistId=" + favouritesModel.getId() + "&key=" + API_KEY;
+                try {
+                    JsonObject jsonobj = jsonReader.getJsonFromURL(URL);
+                    JsonArray imgArray = new JsonArray();
+                    JsonArray URLArray = new JsonArray();
+                    for (int j = 0; j < jsonobj.get("items").getAsJsonArray().size(); j++) {
+                        imgArray.add(getMillorImatge(jsonobj, j));
+                        URLArray.add("https://www.youtube.com/embed/" + jsonobj.get("items").getAsJsonArray().get(j).getAsJsonObject().get("snippet").getAsJsonObject().get("resourceId").getAsJsonObject().get("videoId").getAsString() /*+ "&list=" + json.get("items").getAsJsonArray().get(i).getAsJsonObject().get("id").getAsJsonObject().get("playlistId").getAsString()*/);
+                    }
 
-        if (favouritesModel.getTipusResultat().equals("youtube#video")){
-            String URL = "https://www.googleapis.com/youtube/v3/videos?id=" + favouritesModel.getId() + "&key=" + API_KEY + "&part=statistics";
-            try {
-                JsonObject jsonobj = jsonReader.getJsonFromURL(URL);
-                int likes = jsonobj.getAsJsonArray("items").get(0).getAsJsonObject().get("statistics").getAsJsonObject().get("likeCount").getAsInt();
-                int dislikes = jsonobj.getAsJsonArray("items").get(0).getAsJsonObject().get("statistics").getAsJsonObject().get("dislikeCount").getAsInt();
-                int percentatgeLikes = 100*likes/(likes + dislikes);
+                    favouritesModel.setThumbnails(imgArray);
+                    favouritesModel.setURL(URLArray);
 
-                favouritesModel.setPercentatgeDeLikes(percentatgeLikes);
-                favouritesModel.setThumbnails(jsonParser.parse("[\n\"" + getMillorImatge(json, i) + "\"\n]").getAsJsonArray());
-                favouritesModel.setURL(jsonParser.parse("[\n\"" + "https://www.youtube.com/watch?v=" + json.get("items").getAsJsonArray().get(i).getAsJsonObject().get("id").getAsJsonObject().get("videoId").getAsString() + "\"\n]").getAsJsonArray());
-
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }else if (favouritesModel.getTipusResultat().equals("youtube#playlist")){
-            String URL = "https://www.googleapis.com/youtube/v3/playlistItems?part=snippet&maxResults=50&playlistId=" + favouritesModel.getId() + "&key=" + API_KEY;
-            try {
-                JsonObject jsonobj = jsonReader.getJsonFromURL(URL);
-                JsonArray imgArray = new JsonArray();
-                JsonArray URLArray = new JsonArray();
-                for (int j = 0; j < jsonobj.get("items").getAsJsonArray().size(); j++){
-                    imgArray.add(getMillorImatge(jsonobj, j));
-                    URLArray.add("https://www.youtube.com/watch?v=" + jsonobj.get("items").getAsJsonArray().get(j).getAsJsonObject().get("snippet").getAsJsonObject().get("resourceId").getAsJsonObject().get("videoId").getAsString() + "&list=" + json.get("items").getAsJsonArray().get(i).getAsJsonObject().get("id").getAsJsonObject().get("playlistId").getAsString());
+                } catch (IOException e) {
+                    e.printStackTrace();
                 }
-
-                favouritesModel.setThumbnails(imgArray);
-                favouritesModel.setURL(URLArray);
-
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }else if (favouritesModel.getTipusResultat().equals("youtube#channel")){
-            favouritesModel.setThumbnails(jsonParser.parse("[\n\"" + getMillorImatge(json, i) + "\"\n]").getAsJsonArray());
-            favouritesModel.setURL(jsonParser.parse("[\n\"" + "https://www.youtube.com/channel/" + json.get("items").getAsJsonArray().get(i).getAsJsonObject().get("id").getAsJsonObject().get("channelId").getAsString() + "\"\n]").getAsJsonArray());
-
+                break;
+            case "youtube#channel":
+                favouritesModel.setId(json.get("items").getAsJsonArray().get(i).getAsJsonObject().get("id").getAsJsonObject().get("channelId").getAsString());
+                favouritesModel.setThumbnails(jsonParser.parse("[\n\"" + getMillorImatge(json, i) + "\"\n]").getAsJsonArray());
+                favouritesModel.setURL(jsonParser.parse("[\n\"" + "https://www.youtube.com/channel/" + json.get("items").getAsJsonArray().get(i).getAsJsonObject().get("id").getAsJsonObject().get("channelId").getAsString() + "\"\n]").getAsJsonArray());
+                break;
         }
 
         JsonElement element = jsonParser.parse(gson.toJson(favouritesModel));
