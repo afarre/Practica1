@@ -43,13 +43,14 @@ public class Menu {
             }
 
             GeneraHTML generaHTML = new GeneraHTML(API_KEY);
+            GeneraJSON generaJSON = new GeneraJSON();
 
             switch (i){
                 case 1:
                     opcio1();
                     break;
                 case 2:
-                    opcio2();
+                    opcio2(generaJSON);
                     break;
                 case 3:
                     opcio3();
@@ -58,7 +59,7 @@ public class Menu {
                     opcio4();
                     break;
                 case 5:
-                    opcio5(generaHTML);
+                    opcio5(generaHTML, generaJSON);
                     break;
                 case 6:
                     opcio6(generaHTML);
@@ -101,7 +102,7 @@ public class Menu {
         }
     }
 
-    private void opcio2() {
+    private void opcio2(GeneraJSON generaJSON) {
         System.out.println("Introduiex el que vols cercar:");
         Scanner read = new Scanner(System.in);
         String queryTerm = read.nextLine();
@@ -135,7 +136,6 @@ public class Menu {
                     return;
                 }else if (isNumeric(guardar) && Integer.parseInt(guardar) < 11 && Integer.parseInt(guardar) > 0){
                     int intGuardar = Integer.parseInt(guardar);
-                    GeneraJSON generaJSON = new GeneraJSON();
                     favourites.add(generaJSON.generaObjecte(intGuardar - 1, json));
                     generaJSON.guardaFitxer(favourites);
                     return;
@@ -218,7 +218,7 @@ public class Menu {
 
     }
 
-    private void opcio5(GeneraHTML generaHTML) {
+    private void opcio5(GeneraHTML generaHTML, GeneraJSON generaJSON) {
         try {
             String body;
             for (int i = 0; i < favourites.size(); i++){
@@ -229,7 +229,7 @@ public class Menu {
 
                     for (int j = 0; j < json.get("items").getAsJsonArray().size(); j++){
                         body = body + generaHTML.header(json.get("items").getAsJsonArray().get(j).getAsJsonObject().get("snippet").getAsJsonObject().get("title").getAsString(), 4) + "\n";
-                        body = body + generaHTML.enllaç("https://www.youtube.com/watch?v=" + json.get("items").getAsJsonArray().get(j).getAsJsonObject().get("snippet").getAsJsonObject().get("resourceId").getAsJsonObject().get("videoId").getAsString(), generaHTML.img(getMillorImatge(json, j),"Image not found!", 200) + "\n") + "\n";
+                        body = body + generaHTML.enllaç("https://www.youtube.com/watch?v=" + json.get("items").getAsJsonArray().get(j).getAsJsonObject().get("snippet").getAsJsonObject().get("resourceId").getAsJsonObject().get("videoId").getAsString(), generaHTML.img(generaJSON.getMillorImatge(json, j),"Image not found!", 200) + "\n") + "\n";
                     }
                     generaHTML.creaPlantilla(favourites.getAsJsonArray().get(i).getAsJsonObject().get("titol").getAsString(), body);
                 }
@@ -240,38 +240,16 @@ public class Menu {
         }
     }
 
-    /**
-     * Obte la URL de la imatge amb millor qualitat amb controls d'errors
-     * @param json Json d'on podem llegir les diferents imatges amb diferents qualitats a escollir
-     * @param j Index que indica quin element del json s'ha de llegir
-     * @return La URL de la imatge amb millor qualitat
-     */
-    private String getMillorImatge(JsonObject json, int j){
-        try {
-            return json.get("items").getAsJsonArray().get(j).getAsJsonObject().get("snippet").getAsJsonObject().get("thumbnails").getAsJsonObject().get("maxres").getAsJsonObject().get("url").getAsString();
-        }catch (NullPointerException a){
-            try {
-                return json.get("items").getAsJsonArray().get(j).getAsJsonObject().get("snippet").getAsJsonObject().get("thumbnails").getAsJsonObject().get("standard").getAsJsonObject().get("url").getAsString();
-            }catch (NullPointerException b){
-                try {
-                    return json.get("items").getAsJsonArray().get(j).getAsJsonObject().get("snippet").getAsJsonObject().get("thumbnails").getAsJsonObject().get("high").getAsJsonObject().get("url").getAsString();
-                }catch (NullPointerException c){
-                    try {
-                        return json.get("items").getAsJsonArray().get(j).getAsJsonObject().get("snippet").getAsJsonObject().get("thumbnails").getAsJsonObject().get("medium").getAsJsonObject().get("url").getAsString();
-                    }catch (NullPointerException d){
-                        try {
-                            return json.get("items").getAsJsonArray().get(j).getAsJsonObject().get("snippet").getAsJsonObject().get("thumbnails").getAsJsonObject().get("default").getAsJsonObject().get("url").getAsString();
-                        }catch (NullPointerException e){
-                            return "No image found";
-                        }
-                    }
-                }
+    private void opcio6(GeneraHTML generaHTML) {
+
+        for (int i = 0; i < favourites.size(); i++) {
+            if (favourites.get(i).getAsJsonObject().get("tipusResultat").equals("youtube#video")){
+
+            }else  if (favourites.get(i).getAsJsonObject().get("tipusResultat").equals("youtube#channel")){
+
+            }else if (favourites.get(i).getAsJsonObject().get("tipusResultat").equals("youtube#playlist")){
+
             }
         }
     }
-
-    private void opcio6(GeneraHTML generaHTML) {
-
-    }
-
 }

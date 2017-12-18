@@ -35,6 +35,8 @@ public class GeneraJSON {
      */
     public JsonObject generaObjecte(int i, JsonObject json) {
         JsonReader jsonReader = new JsonReader();
+        Gson gson = new Gson();
+        JsonParser jsonParser = new JsonParser();
 
         FavouritesModel favouritesModel = new FavouritesModel();
         favouritesModel.setTipusResultat(json.get("items").getAsJsonArray().get(i).getAsJsonObject().get("id").getAsJsonObject().get("kind").getAsString());
@@ -63,18 +65,62 @@ public class GeneraJSON {
                 int percentatgeLikes = 100*likes/(likes + dislikes);
 
                 favouritesModel.setPercentatgeDeLikes(percentatgeLikes);
+                favouritesModel.setThumbnails(jsonParser.parse("[\n\"" + getMillorImatge(json, i) + "\"\n]").getAsJsonArray());
 
             } catch (IOException e) {
                 e.printStackTrace();
             }
+        }else if (favouritesModel.getTipusResultat().equals("youtube#playlist")){
+            String URL = "https://www.googleapis.com/youtube/v3/playlistItems?part=snippet&maxResults=50&playlistId=" + favouritesModel.getId() + "&key=" + API_KEY;
+            try {
+                JsonObject jsonobj = jsonReader.getJsonFromURL(URL);
+                JsonArray array = new JsonArray();
+                for (int j = 0; j < jsonobj.get("items").getAsJsonArray().size(); j++){
+                    array.add(getMillorImatge(jsonobj, j));
+                }
+
+                favouritesModel.setThumbnails(array);
+
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }else if (favouritesModel.getTipusResultat().equals("youtube#channel")){
+            favouritesModel.setThumbnails(jsonParser.parse("[\n\"" + getMillorImatge(json, i) + "\"\n]").getAsJsonArray());
         }
-        Gson gson = new Gson();
-        JsonParser jsonParser = new JsonParser();
+
         JsonElement element = jsonParser.parse(gson.toJson(favouritesModel));
         return element.getAsJsonObject();
     }
 
-
+    /**
+     * Obte la URL de la imatge amb millor qualitat amb controls d'errors
+     * @param json Json d'on podem llegir les diferents imatges amb diferents qualitats a escollir
+     * @param j Index que indica quin element del json s'ha de llegir
+     * @return La URL de la imatge amb millor qualitat
+     */
+    public String getMillorImatge(JsonObject json, int j){
+        try {
+            return json.get("items").getAsJsonArray().get(j).getAsJsonObject().get("snippet").getAsJsonObject().get("thumbnails").getAsJsonObject().get("maxres").getAsJsonObject().get("url").getAsString();
+        }catch (NullPointerException a){
+            try {
+                return json.get("items").getAsJsonArray().get(j).getAsJsonObject().get("snippet").getAsJsonObject().get("thumbnails").getAsJsonObject().get("standard").getAsJsonObject().get("url").getAsString();
+            }catch (NullPointerException b){
+                try {
+                    return json.get("items").getAsJsonArray().get(j).getAsJsonObject().get("snippet").getAsJsonObject().get("thumbnails").getAsJsonObject().get("high").getAsJsonObject().get("url").getAsString();
+                }catch (NullPointerException c){
+                    try {
+                        return json.get("items").getAsJsonArray().get(j).getAsJsonObject().get("snippet").getAsJsonObject().get("thumbnails").getAsJsonObject().get("medium").getAsJsonObject().get("url").getAsString();
+                    }catch (NullPointerException d){
+                        try {
+                            return json.get("items").getAsJsonArray().get(j).getAsJsonObject().get("snippet").getAsJsonObject().get("thumbnails").getAsJsonObject().get("default").getAsJsonObject().get("url").getAsString();
+                        }catch (NullPointerException e){
+                            return "No image found";
+                        }
+                    }
+                }
+            }
+        }
+    }
 
 
 }

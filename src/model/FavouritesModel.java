@@ -1,5 +1,10 @@
 package model;
 
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
+
+import java.util.ArrayList;
+
 /**
  * Created by angel on 02/12/2017.
  */
@@ -10,7 +15,15 @@ public class FavouritesModel {
     private String nomCanal;
     private String id;
     private int percentatgeDeLikes;
+    private JsonArray thumbnails;
 
+    public JsonArray getThumbnails() {
+        return thumbnails;
+    }
+
+    public void setThumbnails(JsonArray thumbnails) {
+        this.thumbnails = thumbnails;
+    }
 
     public float getPercentatgeDeLikes() {
         return percentatgeDeLikes;

@@ -34,11 +34,29 @@ public class GeneraHTML {
     }
 
     public String img(String src, String alt, int size){
-        return "<img src=" + src + " height=" + size + "width=" + size + " alt=" + alt + "/>";
+        return "<img src=\"" + src + "\" height=\"" + size + "\" width=\"" + size + "\" alt=\"" + alt + "\"/>";
     }
 
     public String enllaç (String href, String elem){
-        return "<a href=" + href + "> \n    " + elem + "</a>";
+        return "<a href=\"" + href + "\"> \n    " + elem + "</a>";
+    }
+
+    public String graella(String graella){
+
+        return "<table>\n" +
+
+                "</table>";
+    }
+
+    private String generaFila(){
+        return "   <tr>\n" +
+
+                "   </tr>\n";
+    }
+
+    private String generaCasella(){
+        return  "       <td>\n" +
+                "       </td>\n";
     }
 
 }
