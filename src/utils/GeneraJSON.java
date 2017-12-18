@@ -66,6 +66,7 @@ public class GeneraJSON {
 
                 favouritesModel.setPercentatgeDeLikes(percentatgeLikes);
                 favouritesModel.setThumbnails(jsonParser.parse("[\n\"" + getMillorImatge(json, i) + "\"\n]").getAsJsonArray());
+                favouritesModel.setURL(jsonParser.parse("[\n\"" + "https://www.youtube.com/watch?v=" + json.get("items").getAsJsonArray().get(i).getAsJsonObject().get("id").getAsJsonObject().get("videoId").getAsString() + "\"\n]").getAsJsonArray());
 
             } catch (IOException e) {
                 e.printStackTrace();
@@ -74,18 +75,23 @@ public class GeneraJSON {
             String URL = "https://www.googleapis.com/youtube/v3/playlistItems?part=snippet&maxResults=50&playlistId=" + favouritesModel.getId() + "&key=" + API_KEY;
             try {
                 JsonObject jsonobj = jsonReader.getJsonFromURL(URL);
-                JsonArray array = new JsonArray();
+                JsonArray imgArray = new JsonArray();
+                JsonArray URLArray = new JsonArray();
                 for (int j = 0; j < jsonobj.get("items").getAsJsonArray().size(); j++){
-                    array.add(getMillorImatge(jsonobj, j));
+                    imgArray.add(getMillorImatge(jsonobj, j));
+                    URLArray.add("https://www.youtube.com/watch?v=" + jsonobj.get("items").getAsJsonArray().get(j).getAsJsonObject().get("snippet").getAsJsonObject().get("resourceId").getAsJsonObject().get("videoId").getAsString() + "&list=" + json.get("items").getAsJsonArray().get(i).getAsJsonObject().get("id").getAsJsonObject().get("playlistId").getAsString());
                 }
 
-                favouritesModel.setThumbnails(array);
+                favouritesModel.setThumbnails(imgArray);
+                favouritesModel.setURL(URLArray);
 
             } catch (IOException e) {
                 e.printStackTrace();
             }
         }else if (favouritesModel.getTipusResultat().equals("youtube#channel")){
             favouritesModel.setThumbnails(jsonParser.parse("[\n\"" + getMillorImatge(json, i) + "\"\n]").getAsJsonArray());
+            favouritesModel.setURL(jsonParser.parse("[\n\"" + "https://www.youtube.com/channel/" + json.get("items").getAsJsonArray().get(i).getAsJsonObject().get("id").getAsJsonObject().get("channelId").getAsString() + "\"\n]").getAsJsonArray());
+
         }
 
         JsonElement element = jsonParser.parse(gson.toJson(favouritesModel));

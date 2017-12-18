@@ -129,6 +129,7 @@ public class Menu {
             do {
                 if (guardar.toUpperCase().equals("NEXT")){
                     //guardar.compareTo("test");
+                    //TODO: IMPLEMENTAR EL COMPARETOIGNMORECASE
                     URL = "https://www.googleapis.com/youtube/v3/search?part=snippet&q=" + queryTerm.replace(" ", "-") + "&key=" + API_KEY + "&maxResults=10&pageToken=" + json.get("nextPageToken").getAsString();
                     previousTokens.add(json.get("nextPageToken").getAsString());
                     json = jsonReader.getJsonFromURL(URL);
@@ -247,7 +248,7 @@ public class Menu {
                     //TODO: INSERIR ELS SALTS DE LINIA EN LES FUNCIONS DE GENERARHTML
                     for (int j = 0; j < json.get("items").getAsJsonArray().size(); j++){
                         body = body + generaHTML.header(json.get("items").getAsJsonArray().get(j).getAsJsonObject().get("snippet").getAsJsonObject().get("title").getAsString(), 4) + "\n";
-                        body = body + generaHTML.enllaç("https://www.youtube.com/watch?v=" + json.get("items").getAsJsonArray().get(j).getAsJsonObject().get("snippet").getAsJsonObject().get("resourceId").getAsJsonObject().get("videoId").getAsString(), generaHTML.img(generaJSON.getMillorImatge(json, j),"Image not found!", 200) + "\n") + "\n";
+                        body = body + generaHTML.enllaç("https://www.youtube.com/watch?v=" + json.get("items").getAsJsonArray().get(j).getAsJsonObject().get("snippet").getAsJsonObject().get("resourceId").getAsJsonObject().get("videoId").getAsString(), generaHTML.img(generaJSON.getMillorImatge(json, j),"Image not found!", 400, 600) + "\n") + "\n";
                     }
                     generaHTML.creaPlantilla(favourites.getAsJsonArray().get(i).getAsJsonObject().get("titol").getAsString(), body);
                 }
@@ -265,13 +266,16 @@ public class Menu {
      */
     private void opcio6(GeneraHTML generaHTML) {
         JsonArray thumbnailArray =  new JsonArray();
+        JsonArray URLArray = new JsonArray();
         for (int i = 0; i < favourites.size(); i++) {
             if (favourites.get(i).getAsJsonObject().get("tipusResultat").getAsString().equals("youtube#playlist")){
                 for (int j = 0; j < favourites.get(i).getAsJsonObject().get("thumbnails").getAsJsonArray().size(); j++){
                     thumbnailArray.add(favourites.get(i).getAsJsonObject().get("thumbnails").getAsJsonArray().get(j).getAsString());
+                    URLArray.add(favourites.get(i).getAsJsonObject().get("URL").getAsJsonArray().get(j).getAsString());
                 }
             }else {
-                thumbnailArray.add(favourites.get(i).getAsJsonObject().get("thumbnails").getAsJsonArray().get(0));
+                thumbnailArray.add(favourites.get(i).getAsJsonObject().get("thumbnails").getAsJsonArray().get(0).getAsString());
+                URLArray.add(favourites.get(i).getAsJsonObject().get("URL").getAsJsonArray().get(0).getAsString());
             }
         }
 
@@ -279,14 +283,16 @@ public class Menu {
         for (int i = 0; i < thumbnailArray.size() / 4; i++){
             String graella = "";
             for (int j = 0; j < 4; j++){
-                graella = graella + generaHTML.generaCasella("          " + generaHTML.img(thumbnailArray.get((i * 4) + j).getAsString(), "Image not found!", 400) + "\n") + "\n";
+                String img = generaHTML.img(thumbnailArray.get((i * 4) + j).getAsString(), "Image not found!", 400, 600) + "\n";
+                graella = graella + generaHTML.enllaç(URLArray.get((i * 4) + j).getAsString(), img);
             }
             fila = fila + generaHTML.generaFila(graella) + "\n";
         }
 
         String graella = "";
         for (int i = (thumbnailArray.size() - (thumbnailArray.size() - 4*(thumbnailArray.size() / 4))); i < thumbnailArray.size(); i++){
-            graella = graella + generaHTML.generaCasella("          " + generaHTML.img(thumbnailArray.get(i).getAsString(), "Image not found!", 400) + "\n") + "\n";
+            String img = generaHTML.img(thumbnailArray.get(i).getAsString(), "Image not found!", 400, 600) + "\n";
+            graella = graella + generaHTML.enllaç(URLArray.get(i).getAsString(), img);
         }
         fila = fila + generaHTML.generaFila(graella) + "\n";
 

@@ -34,8 +34,8 @@ public class GeneraHTML {
         return "<h" + header + ">" + title + "</h" + header + ">";
     }
 
-    public String img(String src, String alt, int size){
-        return "<img src=\"" + src + "\" height=\"" + size + "\" width=\"" + size + "\" alt=\"" + alt + "\"/>";
+    public String img(String src, String alt, int height, int lenght){
+        return "<img src=\"" + src + "\" height=\"" + height + "\" width=\"" + lenght + "\" alt=\"" + alt + "\"/>";
     }
 
     public String enllaç (String href, String elem){

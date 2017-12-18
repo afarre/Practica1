@@ -13,6 +13,15 @@ public class FavouritesModel {
     private String id;
     private int percentatgeDeLikes;
     private JsonArray thumbnails;
+    private JsonArray URL;
+
+    public JsonArray getURL() {
+        return URL;
+    }
+
+    public void setURL(JsonArray URL) {
+        this.URL = URL;
+    }
 
     public JsonArray getThumbnails() {
         return thumbnails;
