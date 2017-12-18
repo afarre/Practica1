@@ -86,7 +86,6 @@ public class Menu {
         Scanner read = new Scanner(System.in);
         String queryTerm = read.nextLine();
         String URL = "https://www.googleapis.com/youtube/v3/search?part=snippet&q=" + queryTerm.replace(" ", "-") + "&key=" + API_KEY;
-        System.out.println(URL);
         try {
             JsonObject json = jsonReader.getJsonFromURL(URL);
 
@@ -227,6 +226,7 @@ public class Menu {
                     JsonObject json = jsonReader.getJsonFromURL(URL);
                     body = generaHTML.header(favourites.getAsJsonArray().get(i).getAsJsonObject().get("titol").getAsString() + ": " + json.get("items").getAsJsonArray().size() + " videos.", 1);
 
+                    //TODO: INSERIR ELS SALTS DE LINIA EN LES FUNCIONS DE GENERARHTML
                     for (int j = 0; j < json.get("items").getAsJsonArray().size(); j++){
                         body = body + generaHTML.header(json.get("items").getAsJsonArray().get(j).getAsJsonObject().get("snippet").getAsJsonObject().get("title").getAsString(), 4) + "\n";
                         body = body + generaHTML.enllaç("https://www.youtube.com/watch?v=" + json.get("items").getAsJsonArray().get(j).getAsJsonObject().get("snippet").getAsJsonObject().get("resourceId").getAsJsonObject().get("videoId").getAsString(), generaHTML.img(generaJSON.getMillorImatge(json, j),"Image not found!", 200) + "\n") + "\n";
@@ -241,15 +241,36 @@ public class Menu {
     }
 
     private void opcio6(GeneraHTML generaHTML) {
-
+        JsonArray thumbnailArray =  new JsonArray();
         for (int i = 0; i < favourites.size(); i++) {
-            if (favourites.get(i).getAsJsonObject().get("tipusResultat").equals("youtube#video")){
-
-            }else  if (favourites.get(i).getAsJsonObject().get("tipusResultat").equals("youtube#channel")){
-
-            }else if (favourites.get(i).getAsJsonObject().get("tipusResultat").equals("youtube#playlist")){
-
+            if (favourites.get(i).getAsJsonObject().get("tipusResultat").getAsString().equals("youtube#playlist")){
+                for (int j = 0; j < favourites.get(i).getAsJsonObject().get("thumbnails").getAsJsonArray().size(); j++){
+                    thumbnailArray.add(favourites.get(i).getAsJsonObject().get("thumbnails").getAsJsonArray().get(j).getAsString());
+                }
+            }else {
+                thumbnailArray.add(favourites.get(i).getAsJsonObject().get("thumbnails").getAsJsonArray().get(0));
             }
+        }
+
+        String fila = "";
+        for (int i = 0; i < thumbnailArray.size() / 4; i++){
+            String graella = "";
+            for (int j = 0; j < 4; j++){
+                graella = graella + generaHTML.generaCasella("          " + generaHTML.img(thumbnailArray.get((i * 4) + j).getAsString(), "Image not found!", 400) + "\n") + "\n";
+            }
+            fila = fila + generaHTML.generaFila(graella) + "\n";
+        }
+
+        String graella = "";
+        for (int i = (thumbnailArray.size() - (thumbnailArray.size() - 4*(thumbnailArray.size() / 4))); i < thumbnailArray.size(); i++){
+            graella = graella + generaHTML.generaCasella("          " + generaHTML.img(thumbnailArray.get(i).getAsString(), "Image not found!", 400) + "\n") + "\n";
+        }
+        fila = fila + generaHTML.generaFila(graella) + "\n";
+
+        try {
+            generaHTML.creaPlantilla("Thumbnails", generaHTML.graella(fila));
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 }

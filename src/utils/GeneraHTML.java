@@ -42,20 +42,20 @@ public class GeneraHTML {
     }
 
     public String graella(String graella){
-
         return "<table>\n" +
-
-                "</table>";
+                    graella +
+                "</table>\n";
     }
 
-    private String generaFila(){
+    public String generaFila(String graella){
         return "   <tr>\n" +
-
+                        graella +
                 "   </tr>\n";
     }
 
-    private String generaCasella(){
+    public String generaCasella(String element){
         return  "       <td>\n" +
+                            element +
                 "       </td>\n";
     }
 
