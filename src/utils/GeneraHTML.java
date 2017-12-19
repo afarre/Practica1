@@ -31,15 +31,15 @@ public class GeneraHTML {
     }
 
     public String header(String title, int header){
-        return "<h" + header + ">" + title + "</h" + header + ">";
+        return "<h" + header + ">" + title + "</h" + header + ">" + "\n";
     }
 
     public String img(String src, String alt, int height, int width){
-        return "<img src=\"" + src + "\" height=\"" + height + "\" width=\"" + width + "\" alt=\"" + alt + "\"/>";
+        return "<img src=\"" + src + "\" height=\"" + height + "\" width=\"" + width + "\" alt=\"" + alt + "\"/>" + "\n";
     }
 
     public String enllaç (String href, String elem){
-        return "<a href=\"" + href + "\"> \n    " + elem + "</a>";
+        return "<a href=\"" + href + "\"> \n    " + elem + "</a>" + "\n";
     }
 
     public String graella(String graella){

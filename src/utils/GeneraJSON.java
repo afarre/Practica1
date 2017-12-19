@@ -18,7 +18,9 @@ public class GeneraJSON {
      * @param array Array de dades a partir del qual generar el fitxer .json
      */
     public void guardaFitxer(JsonArray array) {
-        try { FileWriter file = new FileWriter("favoritePlaces.json");
+        try {
+            FileWriter file = new FileWriter("favoritePlaces.json");
+            //TODO: NO SOBREESCRIURE EL FITXER VELL, AFEGIR LES DADES VELLES AL NOU
             file.write(array.toString());
             file.flush();
             file.close();

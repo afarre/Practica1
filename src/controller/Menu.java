@@ -3,11 +3,15 @@ package controller;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import org.json.JSONArray;
+import org.w3c.tidy.Tidy;
 import utils.GeneraHTML;
 import utils.GeneraJSON;
 import utils.JsonReader;
 
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.InputMismatchException;
@@ -127,21 +131,20 @@ public class Menu {
             read = new Scanner(System.in);
             String guardar = read.nextLine();
             do {
-                if (guardar.toUpperCase().equals("NEXT")){
-                    //guardar.compareTo("test");
-                    //TODO: IMPLEMENTAR EL COMPARETOIGNMORECASE
+                if (guardar.compareToIgnoreCase("next") == 0){
+                    //TODO: ARREGLAR EL INDEX DEL BACK
                     URL = "https://www.googleapis.com/youtube/v3/search?part=snippet&q=" + queryTerm.replace(" ", "-") + "&key=" + API_KEY + "&maxResults=10&pageToken=" + json.get("nextPageToken").getAsString();
                     previousTokens.add(json.get("nextPageToken").getAsString());
                     json = jsonReader.getJsonFromURL(URL);
                     mostraResultats(i, json);
                     acum++;
                     System.out.println("Selecciona un per desar, si vols veure els seguents, els anteriors o parar:");
-                }else if (guardar.toUpperCase().equals("BACK")){
+                }else if (guardar.compareToIgnoreCase("back") == 0){
                     URL = "https://www.googleapis.com/youtube/v3/search?part=snippet&q=" + queryTerm.replace(" ", "-") + "&key=" + API_KEY + "&maxResults=10&pageToken=" + previousTokens.get(--acum);
                     json = jsonReader.getJsonFromURL(URL);
                     mostraResultats(i, json);
                     System.out.println("Selecciona un per desar, si vols veure els seguents, els anteriors o parar:");
-                }else if (guardar.toUpperCase().equals("STOP")){
+                }else if (guardar.compareToIgnoreCase("stop") == 0){
                     return;
                 }else if (isNumeric(guardar) && Integer.parseInt(guardar) < 11 && Integer.parseInt(guardar) > 0){
                     int intGuardar = Integer.parseInt(guardar);
@@ -243,14 +246,14 @@ public class Menu {
                 if (favourites.getAsJsonArray().get(i).getAsJsonObject().get("tipusResultat").getAsString().equals("youtube#playlist")){
                     String URL = "https://www.googleapis.com/youtube/v3/playlistItems?part=snippet&maxResults=50&playlistId=" + favourites.getAsJsonArray().get(i).getAsJsonObject().get("id").getAsString() + "&key=" + API_KEY;
                     JsonObject json = jsonReader.getJsonFromURL(URL);
+                    //TODO: CONTROLAR QUE EL FITXER ES CREI DE FORMA CORRECTA
                     body = generaHTML.header(favourites.getAsJsonArray().get(i).getAsJsonObject().get("titol").getAsString() + ": " + json.get("items").getAsJsonArray().size() + " videos.", 1);
 
-                    //TODO: INSERIR ELS SALTS DE LINIA EN LES FUNCIONS DE GENERARHTML
                     for (int j = 0; j < json.get("items").getAsJsonArray().size(); j++){
-                        body = body + generaHTML.header(json.get("items").getAsJsonArray().get(j).getAsJsonObject().get("snippet").getAsJsonObject().get("title").getAsString(), 4) + "\n";
-                        body = body + generaHTML.enllaç("https://www.youtube.com/watch?v=" + json.get("items").getAsJsonArray().get(j).getAsJsonObject().get("snippet").getAsJsonObject().get("resourceId").getAsJsonObject().get("videoId").getAsString(), generaHTML.img(generaJSON.getMillorImatge(json, j),"Image not found!", 400, 600) + "\n") + "\n";
+                        body = body + generaHTML.header(json.get("items").getAsJsonArray().get(j).getAsJsonObject().get("snippet").getAsJsonObject().get("title").getAsString(), 4);
+                        body = body + generaHTML.enllaç("https://www.youtube.com/watch?v=" + json.get("items").getAsJsonArray().get(j).getAsJsonObject().get("snippet").getAsJsonObject().get("resourceId").getAsJsonObject().get("videoId").getAsString(), generaHTML.img(generaJSON.getMillorImatge(json, j),"Image not found!", 400, 600));
                     }
-                    generaHTML.creaPlantilla(favourites.getAsJsonArray().get(i).getAsJsonObject().get("titol").getAsString(), body);
+                    generaHTML.creaPlantilla(favourites.getAsJsonArray().get(i).getAsJsonObject().get("titol").getAsString(), prettyPrintHTML(body));
                 }
             }
 
@@ -291,9 +294,9 @@ public class Menu {
             String graella = "";
             for (int j = 0; j < 4; j++){
                 if (iframe.get((i * 4) + j)){
-                    graella = graella + generaHTML.generaIframe(URLArray.get((i * 4) + j).getAsString(), 400, 600);
+                    graella = graella + generaHTML.generaIframe("       " + URLArray.get((i * 4) + j).getAsString(), 400, 600);
                 }else{
-                    String img = generaHTML.img(thumbnailArray.get((i * 4) + j).getAsString(), "Image not found!", 400, 600) + "\n";
+                    String img = generaHTML.img(thumbnailArray.get((i * 4) + j).getAsString(), "Image not found!", 400, 600);
                     graella = graella + generaHTML.enllaç(URLArray.get((i * 4) + j).getAsString(), img);
                 }
             }
@@ -303,9 +306,9 @@ public class Menu {
         String graella = "";
         for (int i = (thumbnailArray.size() - (thumbnailArray.size() - 4*(thumbnailArray.size() / 4))); i < thumbnailArray.size(); i++){
             if (iframe.get(i)){
-                graella = graella + generaHTML.generaIframe(URLArray.get(i).getAsString(), 400, 600);
+                graella = graella + generaHTML.generaIframe("       " + URLArray.get(i).getAsString(), 400, 600);
             }else{
-                String img = generaHTML.img(thumbnailArray.get(i).getAsString(), "Image not found!", 400, 600) + "\n";
+                String img = generaHTML.img(thumbnailArray.get(i).getAsString(), "Image not found!", 400, 600);
                 graella = graella + generaHTML.enllaç(URLArray.get(i).getAsString(), img);
             }
 
@@ -314,9 +317,27 @@ public class Menu {
         fila = fila + generaHTML.generaFila(graella) + "\n";
 
         try {
-            generaHTML.creaPlantilla("Thumbnails", generaHTML.graella(fila));
+            generaHTML.creaPlantilla("Thumbnails", generaHTML.graella(prettyPrintHTML(fila)));
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    private String prettyPrintHTML(String rawHTML)
+    {
+        Tidy tidy = new Tidy();
+        tidy.setXHTML(true);
+        tidy.setIndentContent(true);
+        tidy.setPrintBodyOnly(true);
+        tidy.setTidyMark(false);
+
+        // HTML to DOM
+        org.w3c.dom.Document htmlDOM = tidy.parseDOM(new ByteArrayInputStream(rawHTML.getBytes()), null);
+
+        // Pretty Print
+        OutputStream out = new ByteArrayOutputStream();
+        tidy.pprint(htmlDOM, out);
+
+        return out.toString();
     }
 }
