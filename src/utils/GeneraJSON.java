@@ -9,19 +9,18 @@ import java.io.IOException;
 /**
  * Created by angel on 02/12/2017.
  */
-public class GeneraJSON {
+class GeneraJSON {
     private String API_KEY;
 
-    public GeneraJSON(String API_KEY) {
+    GeneraJSON(String API_KEY) {
         this.API_KEY = API_KEY;
     }
-
 
     /**
      * Crea un fitxer .json
      * @param array Array de dades a partir del qual generar el fitxer .json
      */
-    public void guardaFitxer(JsonArray array) {
+    void guardaFitxer(JsonArray array) {
         try {
             FileWriter file = new FileWriter("favoritePlaces.json");
             //TODO: NO SOBREESCRIURE EL FITXER VELL, AFEGIR LES DADES VELLES AL NOU
@@ -39,7 +38,7 @@ public class GeneraJSON {
      * @param json Json d'on volem extreure les dades
      * @return Un objecte Json extret del model de dades
      */
-    public JsonObject generaObjecte(int i, JsonObject json) {
+    JsonObject generaObjecte(int i, JsonObject json) {
         JsonReader jsonReader = new JsonReader();
         Gson gson = new Gson();
         JsonParser jsonParser = new JsonParser();
@@ -106,7 +105,7 @@ public class GeneraJSON {
      * @param j Index que indica quin element del json s'ha de llegir
      * @return La URL de la imatge amb millor qualitat
      */
-    public String getMillorImatge(JsonObject json, int j) {
+    String getMillorImatge(JsonObject json, int j) {
         if (json.get("items").getAsJsonArray().get(j).getAsJsonObject().get("snippet").getAsJsonObject().get("thumbnails").getAsJsonObject().get("maxres") != null) {
             return json.get("items").getAsJsonArray().get(j).getAsJsonObject().get("snippet").getAsJsonObject().get("thumbnails").getAsJsonObject().get("maxres").getAsJsonObject().get("url").getAsString();
         } else if (json.get("items").getAsJsonArray().get(j).getAsJsonObject().get("snippet").getAsJsonObject().get("thumbnails").getAsJsonObject().get("standard") != null) {

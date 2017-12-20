@@ -43,7 +43,7 @@ public class JsonReader {
      * @return Un JsonObject el qual conte el Json llegit
      * @throws IOException
      */
-    public JsonObject getJsonFromURL(String url) throws IOException {
+    JsonObject getJsonFromURL(String url) throws IOException {
         URL obj = new URL(url);
         JsonObject jsonObject = new JsonObject();
         HttpURLConnection con = (HttpURLConnection) obj.openConnection();
