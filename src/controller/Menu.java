@@ -222,15 +222,64 @@ public class Menu {
         }
     }
 
+    /**
+     * Mostrar la mitjana de reproduccions del video, La mitjana de subscriptors dels canal i la playlist mes vella
+     * i mes nova
+     */
     private void opcio4() {
+        int videosTotals = 0;
+        int reproduccionsTotals = 0;
+        int canalsTotal = 0;
+        int subsTotals = 0;
+        String playlistVella;
+        String playlistNova;
+        for (int i = 0; i < favourites.size(); i++){
+            switch (favourites.get(i).getAsJsonObject().get("tipusResultat").getAsString()) {
+                case "youtube#video":
+                    videosTotals++;
+                    String URL = "https://www.googleapis.com/youtube/v3/videos?id=" + favourites.get(i).getAsJsonObject().get("id").getAsString() + "&key=" + API_KEY + "&part=statistics";
+                    try {
+                        JsonObject video = jsonReader.getJsonFromURL(URL);
+                        reproduccionsTotals += video.get("items").getAsJsonArray().get(0).getAsJsonObject().get("statistics").getAsJsonObject().get("viewCount").getAsInt();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
 
-        //per a videos
-        String URL1 = "https://www.googleapis.com/youtube/v3/videos?id=vJc7s9OJYiY&key=" + API_KEY + "&part=statistics";
-        //per a canals
-        String URL2 = "https://www.googleapis.com/youtube/v3/channels?id=UCEOWFJSDlfEgM_iPduEuHeg&key=" + API_KEY + "&part=statistics";
-        //per a llistes
-        String URL3 = "https://www.googleapis.com/youtube/v3/playlists?id=PLMC9KNkIncKtPzgY-5rmhvj7fax8fdxoj&key=" + API_KEY + "&part=snippet";
+                    break;
+                case "youtube#playlist":
+                    URL = "https://www.googleapis.com/youtube/v3/playlists?id=" + favourites.get(i).getAsJsonObject().get("id").getAsString() + "-5rmhvj7fax8fdxoj&key=" + API_KEY + "&part=snippet";
+                    System.out.println(URL);
+                    try {
+                        JsonObject playlist = jsonReader.getJsonFromURL(URL);
 
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+
+                    break;
+                case "youtube#channel":
+                    canalsTotal++;
+                    URL = "https://www.googleapis.com/youtube/v3/channels?id=" + favourites.get(i).getAsJsonObject().get("id").getAsString() + "&key=" + API_KEY + "&part=statistics";
+                    try {
+                        JsonObject canal = jsonReader.getJsonFromURL(URL);
+                        subsTotals += canal.get("items").getAsJsonArray().get(0).getAsJsonObject().get("statistics").getAsJsonObject().get("subscriberCount").getAsInt();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                    break;
+            }
+        }
+        if (videosTotals == 0){
+            System.out.println("No data for videos");
+            System.out.println("Mitjana de subscriptors als canals: " + subsTotals/canalsTotal);
+        }else if (canalsTotal == 0){
+            System.out.println("Mitjana de reproduccions del videos: " + reproduccionsTotals/videosTotals);
+            System.out.println("No data for channels");
+        }else {
+            System.out.println("Mitjana de reproduccions del videos: " + reproduccionsTotals/videosTotals);
+            System.out.println("Mitjana de subscriptors als canals: " + subsTotals/canalsTotal);
+        }
+        //TODO: ACABAR LES PLAYLIST. SUPOSAR QUE LA LLISTA ES VA CREAR AL INSERIR EL PRIMER VIDEO?
     }
 
     /**
@@ -323,12 +372,12 @@ public class Menu {
         }
     }
 
-    private String prettyPrintHTML(String rawHTML)
-    {
+    private String prettyPrintHTML(String rawHTML) {
+        //TODO: TREURE EL DOCTYPE PER DEFECTE DE JTIDY
         Tidy tidy = new Tidy();
         tidy.setXHTML(true);
         tidy.setIndentContent(true);
-        tidy.setPrintBodyOnly(true);
+        tidy.setPrintBodyOnly(false);
         tidy.setTidyMark(false);
 
         // HTML to DOM

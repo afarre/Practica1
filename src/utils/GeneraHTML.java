@@ -20,7 +20,7 @@ public class GeneraHTML {
                 "<head>\n" +
                 "    <meta charset=\"utf-8\">\n" +
                 //TODO: FICAR EL LS DE LA NATALIA
-                "    <meta name=\"Angel Farre & Natalia Jimenez\" content=\"Angel Farre - ls30927 & Natalia Jimenez - \">\n" +
+                "    <meta name=\"Angel Farre & Natalia Jimenez\" content=\"Angel Farre - ls30927 & Natalia Jimenez - natalia.jimenez.2015@hotmail.com\">\n" +
                 "    <title>" + title + "</title>\n" +
                 "</head>\n" +
                 "<body>\n" +

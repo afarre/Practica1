@@ -5,10 +5,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="c9f39f3b-2653-4a88-9b9b-bd3b130dffb4" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/libs/jtidy-r938.jar" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/jtidy_r938.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Practica1.iml" afterPath="$PROJECT_DIR$/Practica1.iml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/controller/Menu.java" afterPath="$PROJECT_DIR$/src/controller/Menu.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/utils/GeneraHTML.java" afterPath="$PROJECT_DIR$/src/utils/GeneraHTML.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/utils/GeneraJSON.java" afterPath="$PROJECT_DIR$/src/utils/GeneraJSON.java" />
@@ -33,8 +30,8 @@
       <file leaf-file-name="Menu.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/controller/Menu.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="24">
-              <caret line="194" column="7" lean-forward="true" selection-start-line="194" selection-start-column="7" selection-end-line="194" selection-end-column="7" />
+            <state relative-caret-position="1917">
+              <caret line="375" column="54" lean-forward="false" selection-start-line="375" selection-start-column="54" selection-end-line="375" selection-end-column="54" />
               <folding>
                 <element signature="imports" expanded="true" />
                 <element signature="method#mostraMenu#0;class#Menu#0" expanded="false" />
@@ -43,20 +40,10 @@
                 <element signature="method#opcio2#0;class#Menu#0" expanded="false" />
                 <element signature="method#mostraResultats#0;class#Menu#0" expanded="false" />
                 <element signature="method#opcio3#0;class#Menu#0" expanded="false" />
+                <element signature="method#opcio4#0;class#Menu#0" expanded="false" />
                 <element signature="method#opcio5#0;class#Menu#0" expanded="false" />
                 <element signature="method#opcio6#0;class#Menu#0" expanded="false" />
-                <element signature="method#prettyPrintHTML#0;class#Menu#0" expanded="false" />
               </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="Practica1.iml" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/Practica1.iml">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="0">
-              <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-              <folding />
             </state>
           </provider>
         </entry>
@@ -64,10 +51,12 @@
       <file leaf-file-name="GeneraJSON.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/utils/GeneraJSON.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="337">
-              <caret line="22" column="83" lean-forward="false" selection-start-line="22" selection-start-column="83" selection-end-line="22" selection-end-column="83" />
+            <state relative-caret-position="315">
+              <caret line="19" column="46" lean-forward="false" selection-start-line="19" selection-start-column="46" selection-end-line="19" selection-end-column="46" />
               <folding>
+                <element signature="method#guardaFitxer#0;class#GeneraJSON#0" expanded="false" />
                 <element signature="method#generaObjecte#0;class#GeneraJSON#0" expanded="false" />
+                <element signature="method#getMillorImatge#0;class#GeneraJSON#0" expanded="false" />
               </folding>
             </state>
           </provider>
@@ -76,12 +65,16 @@
       <file leaf-file-name="GeneraHTML.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/utils/GeneraHTML.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="465">
-              <caret line="62" column="24" lean-forward="false" selection-start-line="62" selection-start-column="24" selection-end-line="62" selection-end-column="24" />
+            <state relative-caret-position="273">
+              <caret line="15" column="76" lean-forward="false" selection-start-line="15" selection-start-column="76" selection-end-line="15" selection-end-column="76" />
               <folding>
                 <element signature="method#creaPlantilla#0;class#GeneraHTML#0" expanded="false" />
+                <element signature="method#img#0;class#GeneraHTML#0" expanded="false" />
+                <element signature="method#enllaç#0;class#GeneraHTML#0" expanded="false" />
                 <element signature="method#graella#0;class#GeneraHTML#0" expanded="false" />
                 <element signature="method#generaFila#0;class#GeneraHTML#0" expanded="false" />
+                <element signature="method#generaCasella#0;class#GeneraHTML#0" expanded="false" />
+                <element signature="method#generaIframe#0;class#GeneraHTML#0" expanded="false" />
               </folding>
             </state>
           </provider>
@@ -132,13 +125,13 @@
         <option value="$PROJECT_DIR$/src/Main.java" />
         <option value="$PROJECT_DIR$/src/Menu.java" />
         <option value="$PROJECT_DIR$/kj.html" />
-        <option value="$PROJECT_DIR$/All Netsky Songs.html" />
         <option value="$PROJECT_DIR$/src/utils/JsonReader.java" />
         <option value="$PROJECT_DIR$/src/model/FavouritesModel.java" />
-        <option value="$PROJECT_DIR$/favoritePlaces.json" />
         <option value="$PROJECT_DIR$/Thumbnails.html" />
+        <option value="$PROJECT_DIR$/favoritePlaces.json" />
         <option value="$PROJECT_DIR$/src/utils/GeneraHTML.java" />
         <option value="$PROJECT_DIR$/src/utils/GeneraJSON.java" />
+        <option value="$PROJECT_DIR$/All Netsky Songs.html" />
         <option value="$PROJECT_DIR$/src/controller/Menu.java" />
       </list>
     </option>
@@ -174,9 +167,7 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="PackagesPane" />
       <pane id="Scratches" />
-      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <PATH>
@@ -203,8 +194,28 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Practica1" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Practica1" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="utils" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
         </subPane>
       </pane>
+      <pane id="Scope" />
+      <pane id="PackagesPane" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -578,7 +589,14 @@
       <option name="project" value="LOCAL" />
       <updated>1513628698751</updated>
     </task>
-    <option name="localTasksCounter" value="16" />
+    <task id="LOCAL-00016" summary="Afegit el beautifier del html (llibreria externa). Pendent reviso del index del back a la opcio 2.">
+      <created>1513714153339</created>
+      <option name="number" value="00016" />
+      <option name="presentableId" value="LOCAL-00016" />
+      <option name="project" value="LOCAL" />
+      <updated>1513714153339</updated>
+    </task>
+    <option name="localTasksCounter" value="17" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
@@ -595,7 +613,6 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="-9" y="-9" width="1938" height="1048" extended-state="6" />
-    <editor active="true" />
     <layout>
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3295583" sideWeight="0.5" order="13" side_tool="false" content_ui="tabs" />
@@ -606,14 +623,13 @@
       <window_info id="Capture Analysis" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="14" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.41902605" sideWeight="0.5021482" order="14" side_tool="true" content_ui="tabs" />
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="11" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.7633069" sideWeight="0.49785176" order="5" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.5707814" sideWeight="0.49785176" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3295583" sideWeight="0.5" order="16" side_tool="false" content_ui="tabs" />
       <window_info id="Properties" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="12" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3295583" sideWeight="0.5" order="17" side_tool="false" content_ui="tabs" />
       <window_info id="Capture Tool" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
       <window_info id="Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="11" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.1970999" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3295583" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.2019334" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="UI Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="12" side_tool="false" content_ui="tabs" />
@@ -627,6 +643,7 @@
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="16" side_tool="false" content_ui="tabs" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="11" side_tool="false" content_ui="tabs" />
       <window_info id="Coverage" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32975295" sideWeight="0.5" order="9" side_tool="true" content_ui="tabs" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3295583" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
     </layout>
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -651,7 +668,8 @@
     <MESSAGE value="Petites correccions i afegit el javadoc de certes funcions." />
     <MESSAGE value="Modificat el model de dades i l'opcio 2 per a implementar els links en la opcio 6. Per algun motiu la graella es modifica amb el zoom que apliquem a la pagina." />
     <MESSAGE value="Modificat el json de favorits per a guardar una URL adient per a poder introduir el iframe en la opcio 6." />
-    <option name="LAST_COMMIT_MESSAGE" value="Modificat el json de favorits per a guardar una URL adient per a poder introduir el iframe en la opcio 6." />
+    <MESSAGE value="Afegit el beautifier del html (llibreria externa). Pendent reviso del index del back a la opcio 2." />
+    <option name="LAST_COMMIT_MESSAGE" value="Afegit el beautifier del html (llibreria externa). Pendent reviso del index del back a la opcio 2." />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -664,13 +682,6 @@
     <option name="FILTER_TARGETS" value="false" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/src/Main.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="126">
-          <caret line="6" column="26" lean-forward="false" selection-start-line="6" selection-start-column="26" selection-end-line="6" selection-end-column="26" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/.idea/uiDesigner.xml">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="441">
@@ -713,9 +724,9 @@
             <element signature="method#opcio2#0;class#Menu#0" expanded="false" />
             <element signature="method#mostraResultats#0;class#Menu#0" expanded="false" />
             <element signature="method#opcio3#0;class#Menu#0" expanded="false" />
+            <element signature="method#opcio4#0;class#Menu#0" expanded="false" />
             <element signature="method#opcio5#0;class#Menu#0" expanded="false" />
             <element signature="method#opcio6#0;class#Menu#0" expanded="false" />
-            <element signature="method#prettyPrintHTML#0;class#Menu#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -739,9 +750,9 @@
             <element signature="method#opcio2#0;class#Menu#0" expanded="false" />
             <element signature="method#mostraResultats#0;class#Menu#0" expanded="false" />
             <element signature="method#opcio3#0;class#Menu#0" expanded="false" />
+            <element signature="method#opcio4#0;class#Menu#0" expanded="false" />
             <element signature="method#opcio5#0;class#Menu#0" expanded="false" />
             <element signature="method#opcio6#0;class#Menu#0" expanded="false" />
-            <element signature="method#prettyPrintHTML#0;class#Menu#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -802,9 +813,9 @@
             <element signature="method#opcio2#0;class#Menu#0" expanded="false" />
             <element signature="method#mostraResultats#0;class#Menu#0" expanded="false" />
             <element signature="method#opcio3#0;class#Menu#0" expanded="false" />
+            <element signature="method#opcio4#0;class#Menu#0" expanded="false" />
             <element signature="method#opcio5#0;class#Menu#0" expanded="false" />
             <element signature="method#opcio6#0;class#Menu#0" expanded="false" />
-            <element signature="method#prettyPrintHTML#0;class#Menu#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -843,9 +854,9 @@
             <element signature="method#opcio2#0;class#Menu#0" expanded="false" />
             <element signature="method#mostraResultats#0;class#Menu#0" expanded="false" />
             <element signature="method#opcio3#0;class#Menu#0" expanded="false" />
+            <element signature="method#opcio4#0;class#Menu#0" expanded="false" />
             <element signature="method#opcio5#0;class#Menu#0" expanded="false" />
             <element signature="method#opcio6#0;class#Menu#0" expanded="false" />
-            <element signature="method#prettyPrintHTML#0;class#Menu#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -869,9 +880,9 @@
             <element signature="method#opcio2#0;class#Menu#0" expanded="false" />
             <element signature="method#mostraResultats#0;class#Menu#0" expanded="false" />
             <element signature="method#opcio3#0;class#Menu#0" expanded="false" />
+            <element signature="method#opcio4#0;class#Menu#0" expanded="false" />
             <element signature="method#opcio5#0;class#Menu#0" expanded="false" />
             <element signature="method#opcio6#0;class#Menu#0" expanded="false" />
-            <element signature="method#prettyPrintHTML#0;class#Menu#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -922,7 +933,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/favoritePlaces.json" />
     <entry file="file://$PROJECT_DIR$/src/Main.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="105">
@@ -938,43 +948,24 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Netsky TOP 25 Best Songs.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Netsky Discography.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/utils/GeneraHTML.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="465">
-          <caret line="62" column="24" lean-forward="false" selection-start-line="62" selection-start-column="24" selection-end-line="62" selection-end-column="24" />
-          <folding>
-            <element signature="method#creaPlantilla#0;class#GeneraHTML#0" expanded="false" />
-            <element signature="method#graella#0;class#GeneraHTML#0" expanded="false" />
-            <element signature="method#generaFila#0;class#GeneraHTML#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
+    <entry file="file://$PROJECT_DIR$/Netsky TOP 25 Best Songs.html" />
+    <entry file="file://$PROJECT_DIR$/Netsky Discography.html" />
     <entry file="file://$PROJECT_DIR$/Practica1.iml">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/favoritePlaces.json">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="43" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="4616" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/All Netsky Songs.html">
+    <entry file="file://$PROJECT_DIR$/Thumbnails.html">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
@@ -984,26 +975,52 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/utils/GeneraJSON.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="337">
-          <caret line="22" column="83" lean-forward="false" selection-start-line="22" selection-start-column="83" selection-end-line="22" selection-end-column="83" />
+        <state relative-caret-position="315">
+          <caret line="19" column="46" lean-forward="false" selection-start-line="19" selection-start-column="46" selection-end-line="19" selection-end-column="46" />
           <folding>
+            <element signature="method#guardaFitxer#0;class#GeneraJSON#0" expanded="false" />
             <element signature="method#generaObjecte#0;class#GeneraJSON#0" expanded="false" />
+            <element signature="method#getMillorImatge#0;class#GeneraJSON#0" expanded="false" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Thumbnails.html">
+    <entry file="jar://$PROJECT_DIR$/libs/jtidy-r938.jar!/org/w3c/tidy/Tidy.class">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="210">
-          <caret line="10" column="1" lean-forward="false" selection-start-line="10" selection-start-column="1" selection-end-line="10" selection-end-column="1" />
+        <state relative-caret-position="158">
+          <caret line="140" column="61" lean-forward="false" selection-start-line="140" selection-start-column="61" selection-end-line="140" selection-end-column="61" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/utils/GeneraHTML.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="273">
+          <caret line="15" column="76" lean-forward="false" selection-start-line="15" selection-start-column="76" selection-end-line="15" selection-end-column="76" />
+          <folding>
+            <element signature="method#creaPlantilla#0;class#GeneraHTML#0" expanded="false" />
+            <element signature="method#img#0;class#GeneraHTML#0" expanded="false" />
+            <element signature="method#enllaç#0;class#GeneraHTML#0" expanded="false" />
+            <element signature="method#graella#0;class#GeneraHTML#0" expanded="false" />
+            <element signature="method#generaFila#0;class#GeneraHTML#0" expanded="false" />
+            <element signature="method#generaCasella#0;class#GeneraHTML#0" expanded="false" />
+            <element signature="method#generaIframe#0;class#GeneraHTML#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/All Netsky Songs.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="882">
+          <caret line="204" column="0" lean-forward="true" selection-start-line="204" selection-start-column="0" selection-end-line="204" selection-end-column="0" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/controller/Menu.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="24">
-          <caret line="194" column="7" lean-forward="true" selection-start-line="194" selection-start-column="7" selection-end-line="194" selection-end-column="7" />
+        <state relative-caret-position="1917">
+          <caret line="375" column="54" lean-forward="false" selection-start-line="375" selection-start-column="54" selection-end-line="375" selection-end-column="54" />
           <folding>
             <element signature="imports" expanded="true" />
             <element signature="method#mostraMenu#0;class#Menu#0" expanded="false" />
@@ -1012,9 +1029,9 @@
             <element signature="method#opcio2#0;class#Menu#0" expanded="false" />
             <element signature="method#mostraResultats#0;class#Menu#0" expanded="false" />
             <element signature="method#opcio3#0;class#Menu#0" expanded="false" />
+            <element signature="method#opcio4#0;class#Menu#0" expanded="false" />
             <element signature="method#opcio5#0;class#Menu#0" expanded="false" />
             <element signature="method#opcio6#0;class#Menu#0" expanded="false" />
-            <element signature="method#prettyPrintHTML#0;class#Menu#0" expanded="false" />
           </folding>
         </state>
       </provider>

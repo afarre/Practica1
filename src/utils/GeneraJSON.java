@@ -65,10 +65,12 @@ public class GeneraJSON {
                 }
                 break;
             case "youtube#playlist":
+                System.out.println(json);
                 favouritesModel.setId(json.get("items").getAsJsonArray().get(i).getAsJsonObject().get("id").getAsJsonObject().get("playlistId").getAsString());
                 URL = "https://www.googleapis.com/youtube/v3/playlistItems?part=snippet&maxResults=50&playlistId=" + favouritesModel.getId() + "&key=" + API_KEY;
                 try {
                     JsonObject jsonobj = jsonReader.getJsonFromURL(URL);
+                    System.out.println(jsonobj);
                     JsonArray imgArray = new JsonArray();
                     JsonArray URLArray = new JsonArray();
                     for (int j = 0; j < jsonobj.get("items").getAsJsonArray().size(); j++) {
