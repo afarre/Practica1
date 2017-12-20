@@ -7,19 +7,12 @@ import java.io.*;
  */
 public class GeneraHTML {
 
-    private static String API_KEY;
-
-    public GeneraHTML(String API_KEY){
-        this.API_KEY = API_KEY;
-    }
-
     public void creaPlantilla(String title, String body) throws IOException {
         BufferedWriter bw = new BufferedWriter(new FileWriter(title + ".html"));
         bw.write("<!DOCTYPE html>\n" +
                 "<html>\n" +
                 "<head>\n" +
                 "    <meta charset=\"utf-8\">\n" +
-                //TODO: FICAR EL LS DE LA NATALIA
                 "    <meta name=\"Angel Farre & Natalia Jimenez\" content=\"Angel Farre - ls30927 & Natalia Jimenez - natalia.jimenez.2015@hotmail.com\">\n" +
                 "    <title>" + title + "</title>\n" +
                 "</head>\n" +

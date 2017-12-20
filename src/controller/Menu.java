@@ -3,15 +3,11 @@ package controller;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import org.json.JSONArray;
-import org.w3c.tidy.Tidy;
 import utils.GeneraHTML;
 import utils.GeneraJSON;
 import utils.JsonReader;
 
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
 import java.io.IOException;
-import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.InputMismatchException;
@@ -24,15 +20,15 @@ import java.util.Scanner;
 public class Menu {
     private JsonReader jsonReader = new JsonReader();
     private JsonArray favourites = new JsonArray();
-    private String API_KEY = "AIzaSyCHI5qNldMo0BcX8iVv7Gnx9Zc0i1fcIQ0";
+    private final String API_KEY = "AIzaSyCHI5qNldMo0BcX8iVv7Gnx9Zc0i1fcIQ0";
 
     /**
      * Mostra el menu permetent seleccionar opcions de la 1 a la 7 incloses amb control d'errors
      */
     public void mostraMenu() {
         int i;
-        GeneraHTML generaHTML = new GeneraHTML(API_KEY);
-        GeneraJSON generaJSON = new GeneraJSON();
+        GeneraHTML generaHTML = new GeneraHTML();
+        GeneraJSON generaJSON = new GeneraJSON(API_KEY);
         do {
             System.out.println("\n1. Cerca de Resultats");
             System.out.println("2. Desar Preferits");
@@ -186,7 +182,7 @@ public class Menu {
      * @param str Cadena a comprovar
      * @return cert si la cadena conte un int
      */
-    private static boolean isNumeric(String str) {
+    private boolean isNumeric(String str) {
         return str.matches("-?\\d+(\\.\\d+)?");
     }
 
@@ -302,7 +298,7 @@ public class Menu {
                         body = body + generaHTML.header(json.get("items").getAsJsonArray().get(j).getAsJsonObject().get("snippet").getAsJsonObject().get("title").getAsString(), 4);
                         body = body + generaHTML.enllaç("https://www.youtube.com/watch?v=" + json.get("items").getAsJsonArray().get(j).getAsJsonObject().get("snippet").getAsJsonObject().get("resourceId").getAsJsonObject().get("videoId").getAsString(), generaHTML.img(generaJSON.getMillorImatge(json, j),"Image not found!", 400, 600));
                     }
-                    generaHTML.creaPlantilla(favourites.getAsJsonArray().get(i).getAsJsonObject().get("titol").getAsString(), prettyPrintHTML(body));
+                    generaHTML.creaPlantilla(favourites.getAsJsonArray().get(i).getAsJsonObject().get("titol").getAsString(), body);
                 }
             }
 
@@ -312,10 +308,11 @@ public class Menu {
     }
 
     /**
-     * Genera un fitxer en html que mostra en una graella els thumbnails de tots els resultats desatsa a favorits
+     * Genera un fitxer en html que mostra en una graella els thumbnails de tots els resultats desats a favorits
      * amb un enllaç al seu video corresponent
      * @param generaHTML Clase amb funcionalitats que ens permeten generar un fitxer html
      */
+    //TODO: AMB ZOOM GRAN MOSTRE FILES DE 4, HAM ZOOM MES GRAN FILES DEL TAMANY DE LA PANTALLA. TOT EN UNA SOLA FILA?
     private void opcio6(GeneraHTML generaHTML) {
         JsonArray thumbnailArray =  new JsonArray();
         JsonArray URLArray = new JsonArray();
@@ -343,19 +340,19 @@ public class Menu {
             String graella = "";
             for (int j = 0; j < 4; j++){
                 if (iframe.get((i * 4) + j)){
-                    graella = graella + generaHTML.generaIframe("       " + URLArray.get((i * 4) + j).getAsString(), 400, 600);
+                    graella = graella + generaHTML.generaIframe(URLArray.get((i * 4) + j).getAsString(), 400, 600);
                 }else{
                     String img = generaHTML.img(thumbnailArray.get((i * 4) + j).getAsString(), "Image not found!", 400, 600);
                     graella = graella + generaHTML.enllaç(URLArray.get((i * 4) + j).getAsString(), img);
                 }
             }
-            fila = fila + generaHTML.generaFila(graella) + "\n";
+            fila = fila + generaHTML.generaFila(generaHTML.generaCasella(graella)) + "\n";
         }
 
         String graella = "";
         for (int i = (thumbnailArray.size() - (thumbnailArray.size() - 4*(thumbnailArray.size() / 4))); i < thumbnailArray.size(); i++){
             if (iframe.get(i)){
-                graella = graella + generaHTML.generaIframe("       " + URLArray.get(i).getAsString(), 400, 600);
+                graella = graella + generaHTML.generaIframe(URLArray.get(i).getAsString(), 400, 600);
             }else{
                 String img = generaHTML.img(thumbnailArray.get(i).getAsString(), "Image not found!", 400, 600);
                 graella = graella + generaHTML.enllaç(URLArray.get(i).getAsString(), img);
@@ -363,30 +360,13 @@ public class Menu {
 
 
         }
-        fila = fila + generaHTML.generaFila(graella) + "\n";
+        fila = fila + generaHTML.generaFila(generaHTML.generaCasella(graella)) + "\n";
 
         try {
-            generaHTML.creaPlantilla("Thumbnails", generaHTML.graella(prettyPrintHTML(fila)));
+            generaHTML.creaPlantilla("Thumbnails", generaHTML.graella(fila));
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
-    private String prettyPrintHTML(String rawHTML) {
-        //TODO: TREURE EL DOCTYPE PER DEFECTE DE JTIDY
-        Tidy tidy = new Tidy();
-        tidy.setXHTML(true);
-        tidy.setIndentContent(true);
-        tidy.setPrintBodyOnly(false);
-        tidy.setTidyMark(false);
-
-        // HTML to DOM
-        org.w3c.dom.Document htmlDOM = tidy.parseDOM(new ByteArrayInputStream(rawHTML.getBytes()), null);
-
-        // Pretty Print
-        OutputStream out = new ByteArrayOutputStream();
-        tidy.pprint(htmlDOM, out);
-
-        return out.toString();
-    }
 }

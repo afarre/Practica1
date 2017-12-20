@@ -15,17 +15,14 @@ public class JsonReader {
      * Carrega i llegeix el fitxer Json corresponent
      * @return el fitxer Json llegit en forma JsonObject
      */
-    @Deprecated
-    JsonArray lectura(){
-        //JsonObject jsonObject = new JsonObject();
-        JsonArray jsonArray = new JsonArray();
+    public JsonObject lectura(){
+        JsonObject jsonObject = new JsonObject();
         Gson gson = new Gson();
         BufferedReader br = null;
         try {
             FileReader fr = new FileReader("favoritePlaces.json");
             br = new BufferedReader(fr);
-            jsonArray = gson.fromJson(br, JsonArray.class);
-            //jsonObject = gson.fromJson(br, JsonObject.class).getAsJsonObject();
+            jsonObject = gson.fromJson(br, JsonObject.class).getAsJsonObject();
         } catch (FileNotFoundException ko) {
             ko.printStackTrace();
         } finally {
@@ -37,8 +34,7 @@ public class JsonReader {
                 }
             }
         }
-        return jsonArray;
-        //return jsonObject;
+        return jsonObject;
     }
 
     /**

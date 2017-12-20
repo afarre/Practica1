@@ -10,7 +10,11 @@ import java.io.IOException;
  * Created by angel on 02/12/2017.
  */
 public class GeneraJSON {
-    private String API_KEY = "AIzaSyCHI5qNldMo0BcX8iVv7Gnx9Zc0i1fcIQ0";
+    private String API_KEY;
+
+    public GeneraJSON(String API_KEY) {
+        this.API_KEY = API_KEY;
+    }
 
 
     /**
@@ -102,27 +106,21 @@ public class GeneraJSON {
      * @param j Index que indica quin element del json s'ha de llegir
      * @return La URL de la imatge amb millor qualitat
      */
-    public String getMillorImatge(JsonObject json, int j){
-        try {
+    public String getMillorImatge(JsonObject json, int j) {
+        if (json.get("items").getAsJsonArray().get(j).getAsJsonObject().get("snippet").getAsJsonObject().get("thumbnails").getAsJsonObject().get("maxres") != null) {
             return json.get("items").getAsJsonArray().get(j).getAsJsonObject().get("snippet").getAsJsonObject().get("thumbnails").getAsJsonObject().get("maxres").getAsJsonObject().get("url").getAsString();
-        }catch (NullPointerException a){
-            try {
-                return json.get("items").getAsJsonArray().get(j).getAsJsonObject().get("snippet").getAsJsonObject().get("thumbnails").getAsJsonObject().get("standard").getAsJsonObject().get("url").getAsString();
-            }catch (NullPointerException b){
-                try {
-                    return json.get("items").getAsJsonArray().get(j).getAsJsonObject().get("snippet").getAsJsonObject().get("thumbnails").getAsJsonObject().get("high").getAsJsonObject().get("url").getAsString();
-                }catch (NullPointerException c){
-                    try {
-                        return json.get("items").getAsJsonArray().get(j).getAsJsonObject().get("snippet").getAsJsonObject().get("thumbnails").getAsJsonObject().get("medium").getAsJsonObject().get("url").getAsString();
-                    }catch (NullPointerException d){
-                        try {
-                            return json.get("items").getAsJsonArray().get(j).getAsJsonObject().get("snippet").getAsJsonObject().get("thumbnails").getAsJsonObject().get("default").getAsJsonObject().get("url").getAsString();
-                        }catch (NullPointerException e){
-                            return "No image found";
-                        }
-                    }
-                }
-            }
+        } else if (json.get("items").getAsJsonArray().get(j).getAsJsonObject().get("snippet").getAsJsonObject().get("thumbnails").getAsJsonObject().get("standard") != null) {
+            return json.get("items").getAsJsonArray().get(j).getAsJsonObject().get("snippet").getAsJsonObject().get("thumbnails").getAsJsonObject().get("standard").getAsJsonObject().get("url").getAsString();
+        } else if (json.get("items").getAsJsonArray().get(j).getAsJsonObject().get("snippet").getAsJsonObject().get("thumbnails").getAsJsonObject().get("high") != null) {
+            return json.get("items").getAsJsonArray().get(j).getAsJsonObject().get("snippet").getAsJsonObject().get("thumbnails").getAsJsonObject().get("high").getAsJsonObject().get("url").getAsString();
+        } else if (json.get("items").getAsJsonArray().get(j).getAsJsonObject().get("snippet").getAsJsonObject().get("thumbnails").getAsJsonObject().get("medium") != null) {
+            return json.get("items").getAsJsonArray().get(j).getAsJsonObject().get("snippet").getAsJsonObject().get("thumbnails").getAsJsonObject().get("medium").getAsJsonObject().get("url").getAsString();
+        } else if (json.get("items").getAsJsonArray().get(j).getAsJsonObject().get("snippet").getAsJsonObject().get("thumbnails").getAsJsonObject().get("default") != null) {
+            return json.get("items").getAsJsonArray().get(j).getAsJsonObject().get("snippet").getAsJsonObject().get("thumbnails").getAsJsonObject().get("default").getAsJsonObject().get("url").getAsString();
+        } else {
+            //TODO: RETORNAR UNA IMATGE GUARDADA EN LOCAL
+            return "No image found";
         }
+
     }
 }
