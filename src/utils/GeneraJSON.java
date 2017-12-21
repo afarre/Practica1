@@ -2,6 +2,7 @@ package utils;
 
 import com.google.gson.*;
 import model.FavouritesModel;
+import org.json.JSONObject;
 
 import java.io.FileWriter;
 import java.io.IOException;
@@ -69,13 +70,10 @@ class GeneraJSON {
                 }
                 break;
             case "youtube#playlist":
-                System.out.println(json);
                 favouritesModel.setId(json.get("items").getAsJsonArray().get(i).getAsJsonObject().get("id").getAsJsonObject().get("playlistId").getAsString());
                 URL = "https://www.googleapis.com/youtube/v3/playlistItems?part=snippet&maxResults=50&playlistId=" + favouritesModel.getId() + "&key=" + API_KEY;
-                System.out.println(URL);
                 try {
                     JsonObject jsonobj = jsonReader.getJsonFromURL(URL);
-                    System.out.println(URL);
                     JsonArray imgArray = new JsonArray();
                     JsonArray URLArray = new JsonArray();
                     for (int j = 0; j < jsonobj.get("items").getAsJsonArray().size(); j++) {
@@ -108,8 +106,9 @@ class GeneraJSON {
      * @return La URL de la imatge amb millor qualitat
      */
     String getMillorImatge(JsonObject json, int j) {
-        System.out.println(j);
-        if (json.get("items").getAsJsonArray().get(j).getAsJsonObject().get("snippet").getAsJsonObject().get("thumbnails").getAsJsonObject().get("maxres") != null) {
+        if (json.get("items").getAsJsonArray().get(j).getAsJsonObject().get("snippet").getAsJsonObject().get("thumbnails") == null){
+            return "noimage.jpg";
+        }else if (json.get("items").getAsJsonArray().get(j).getAsJsonObject().get("snippet").getAsJsonObject().get("thumbnails").getAsJsonObject().get("maxres") != null) {
             return json.get("items").getAsJsonArray().get(j).getAsJsonObject().get("snippet").getAsJsonObject().get("thumbnails").getAsJsonObject().get("maxres").getAsJsonObject().get("url").getAsString();
         } else if (json.get("items").getAsJsonArray().get(j).getAsJsonObject().get("snippet").getAsJsonObject().get("thumbnails").getAsJsonObject().get("standard") != null) {
             return json.get("items").getAsJsonArray().get(j).getAsJsonObject().get("snippet").getAsJsonObject().get("thumbnails").getAsJsonObject().get("standard").getAsJsonObject().get("url").getAsString();
@@ -123,6 +122,5 @@ class GeneraJSON {
             //TODO: RETORNAR UNA IMATGE GUARDADA EN LOCAL
             return "No image found";
         }
-
     }
 }

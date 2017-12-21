@@ -3,6 +3,7 @@ package utils;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import org.json.JSONArray;
+import org.json.JSONObject;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -154,7 +155,7 @@ public class Logica {
         int canalsTotal = 0;
         int subsTotals = 0;
         String playlistVella = "a";
-        String playlistNova = "z";
+        String playlistNova = "";
         for (int i = 0; i < favourites.size(); i++){
             switch (favourites.get(i).getAsJsonObject().get("tipusResultat").getAsString()) {
                 case "youtube#video":
@@ -171,7 +172,6 @@ public class Logica {
                 case "youtube#playlist":
                     //NOTA: La data que proporciona YouTube esta en format ISO 8601 (The lexicographical order of the representation thus corresponds to chronological order)
                     URL = "https://www.googleapis.com/youtube/v3/playlists?id=" + favourites.get(i).getAsJsonObject().get("id").getAsString() + "&key=" + API_KEY + "&part=snippet";
-                    System.out.println(URL);
                     try {
                         JsonObject playlist = jsonReader.getJsonFromURL(URL);
                         //TODO: Guardar el nom de la playlist com a id i printar el quan es va publicar
@@ -207,12 +207,18 @@ public class Logica {
         }else if (canalsTotal == 0){
             System.out.println("Mitjana de reproduccions del videos: " + reproduccionsTotals/videosTotals);
             System.out.println("No data for channels");
+            System.out.println("La playlist mes vella es del: " + playlistVella);
+            System.out.println("La playlist mes nova es del: " + playlistNova);
         }else if (videosTotals == 0){
             System.out.println("No data for videos");
             System.out.println("Mitjana de subscriptors als canals: " + subsTotals/canalsTotal);
+            System.out.println("La playlist mes vella es del: " + playlistVella);
+            System.out.println("La playlist mes nova es del: " + playlistNova);
         }else {
             System.out.println("Mitjana de reproduccions del videos: " + reproduccionsTotals/videosTotals);
             System.out.println("Mitjana de subscriptors als canals: " + subsTotals/canalsTotal);
+            System.out.println("La playlist mes vella es del: " + playlistVella);
+            System.out.println("La playlist mes nova es del: " + playlistNova);
         }
         //TODO: ACABAR LES PLAYLIST
     }
@@ -255,7 +261,11 @@ public class Logica {
         for (int i = 0; i < favourites.size(); i++) {
             if (favourites.get(i).getAsJsonObject().get("tipusResultat").getAsString().equals("youtube#playlist")){
                 for (int j = 0; j < favourites.get(i).getAsJsonObject().get("thumbnails").getAsJsonArray().size(); j++){
-                    thumbnailArray.add(favourites.get(i).getAsJsonObject().get("thumbnails").getAsJsonArray().get(j).getAsString());
+                    if (favourites.get(i).getAsJsonObject().get("thumbnails").getAsJsonArray().get(j).getAsString().equals("null")){
+                        thumbnailArray.add("");
+                    }else {
+                        thumbnailArray.add(favourites.get(i).getAsJsonObject().get("thumbnails").getAsJsonArray().get(j).getAsString());
+                    }
                     URLArray.add(favourites.get(i).getAsJsonObject().get("URL").getAsJsonArray().get(j).getAsString());
                     iframe.add(true);
                 }
@@ -265,7 +275,11 @@ public class Logica {
                 }else {
                     iframe.add(false);
                 }
-                thumbnailArray.add(favourites.get(i).getAsJsonObject().get("thumbnails").getAsJsonArray().get(0).getAsString());
+                if (favourites.get(i).getAsJsonObject().get("thumbnails").getAsJsonArray().get(0).getAsString().equals("null")){
+                    thumbnailArray.add("");
+                }else {
+                    thumbnailArray.add(favourites.get(i).getAsJsonObject().get("thumbnails").getAsJsonArray().get(0).getAsString());
+                }
                 URLArray.add(favourites.get(i).getAsJsonObject().get("URL").getAsJsonArray().get(0).getAsString());
             }
         }

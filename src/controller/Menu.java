@@ -18,7 +18,7 @@ public class Menu {
     public void mostraMenu() {
         int i;
         Logica logica = new Logica();
-        if (logica.carregaFavorits()){
+        if (true /*logica.carregaFavorits()*/){
             do {
                 System.out.println("\n1. Cerca de Resultats");
                 System.out.println("2. Desar Preferits");
