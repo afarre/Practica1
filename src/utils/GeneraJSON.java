@@ -99,6 +99,14 @@ class GeneraJSON {
         return element.getAsJsonObject();
     }
 
+    JsonObject generaEmptyObject(int i, JsonObject json){
+        Gson gson = new Gson();
+        JsonParser jsonParser = new JsonParser();
+
+        JsonElement element = jsonParser.parse(gson.toJson(json));
+        return element.getAsJsonObject();
+    }
+
     /**
      * Obte la URL de la imatge amb millor qualitat amb controls d'errors
      * @param json Json d'on podem llegir les diferents imatges amb diferents qualitats a escollir

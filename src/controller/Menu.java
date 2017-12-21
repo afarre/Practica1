@@ -18,7 +18,7 @@ public class Menu {
     public void mostraMenu() {
         int i;
         Logica logica = new Logica();
-        if (true /*logica.carregaFavorits()*/){
+        if (logica.carregaFavorits()){
             do {
                 System.out.println("\n1. Cerca de Resultats");
                 System.out.println("2. Desar Preferits");
@@ -58,7 +58,9 @@ public class Menu {
                 }
             }while(i != 7);
         }else {
-            System.out.println("Error a l'hora de carregar el fitxer de favortis!");
+            System.out.println("No existeicx un fitxer de favorits!");
+            System.out.println("Generant nou fitxer...");
+            mostraMenu();
         }
     }
 

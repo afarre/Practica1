@@ -3,7 +3,6 @@ package utils;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import org.json.JSONArray;
-import org.json.JSONObject;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -21,11 +20,19 @@ public class Logica {
     private GeneraHTML generaHTML = new GeneraHTML();
     private GeneraJSON generaJSON = new GeneraJSON(API_KEY, jsonReader);
 
-    public boolean carregaFavorits() {
+    public boolean carregaFavorits(){
         try {
             favourites = jsonReader.lectura();
             return true;
         } catch (FileNotFoundException e) {
+            try {
+                String URL = "https://www.googleapis.com/youtube/v3/search?part=snippet&q=netsky-escape&key=" + API_KEY + "&maxResults=10&pageToken=";
+                JsonObject json = jsonReader.getJsonFromURL(URL);
+                favourites.add(generaJSON.generaObjecte(0, json));
+                generaJSON.guardaFitxer(favourites);
+            } catch (IOException e1) {
+                System.out.println("Error a l'hora de fer una peticio a YouTube per a carregar una fitxer de favorits per defecte.");
+            }
             return false;
         }
     }
