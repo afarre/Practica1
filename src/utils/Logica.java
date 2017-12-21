@@ -4,6 +4,7 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import org.json.JSONArray;
 
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -17,7 +18,16 @@ public class Logica {
     private JsonArray favourites = new JsonArray();
     private final String API_KEY = "AIzaSyCHI5qNldMo0BcX8iVv7Gnx9Zc0i1fcIQ0";
     private GeneraHTML generaHTML = new GeneraHTML();
-    private GeneraJSON generaJSON = new GeneraJSON(API_KEY);
+    private GeneraJSON generaJSON = new GeneraJSON(API_KEY, jsonReader);
+
+    public boolean carregaFavorits() {
+        try {
+            favourites = jsonReader.lectura();
+            return true;
+        } catch (FileNotFoundException e) {
+            return false;
+        }
+    }
 
     /**
      * Permet introduir a l'usuari un text de cerca i mostra informacio dels 3 primers resultats
@@ -143,8 +153,8 @@ public class Logica {
         int reproduccionsTotals = 0;
         int canalsTotal = 0;
         int subsTotals = 0;
-        String playlistVella;
-        String playlistNova;
+        String playlistVella = "a";
+        String playlistNova = "z";
         for (int i = 0; i < favourites.size(); i++){
             switch (favourites.get(i).getAsJsonObject().get("tipusResultat").getAsString()) {
                 case "youtube#video":
@@ -164,7 +174,14 @@ public class Logica {
                     System.out.println(URL);
                     try {
                         JsonObject playlist = jsonReader.getJsonFromURL(URL);
-                        //TODO: AFEGIR publishedAt AL FITXER JSON FAVORITS?
+                        //TODO: Guardar el nom de la playlist com a id i printar el quan es va publicar
+                        String aux = playlist.get("items").getAsJsonArray().get(0).getAsJsonObject().get("snippet").getAsJsonObject().get("publishedAt").getAsString();
+                        if (aux.compareTo(playlistVella) < 0){
+                            playlistVella = aux;
+                        }
+                        if (aux.compareTo(playlistNova) > 0){
+                            playlistNova = aux;
+                        }
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
@@ -185,6 +202,8 @@ public class Logica {
         if (canalsTotal == 0 && videosTotals == 0){
             System.out.println("No data for videos");
             System.out.println("No data for channels");
+            System.out.println("La playlist mes vella es del: " + playlistVella);
+            System.out.println("La playlist mes nova es del: " + playlistNova);
         }else if (canalsTotal == 0){
             System.out.println("Mitjana de reproduccions del videos: " + reproduccionsTotals/videosTotals);
             System.out.println("No data for channels");
@@ -195,7 +214,7 @@ public class Logica {
             System.out.println("Mitjana de reproduccions del videos: " + reproduccionsTotals/videosTotals);
             System.out.println("Mitjana de subscriptors als canals: " + subsTotals/canalsTotal);
         }
-        //TODO: ACABAR LES PLAYLIST. SUPOSAR QUE LA LLISTA ES VA CREAR AL INSERIR EL PRIMER VIDEO?
+        //TODO: ACABAR LES PLAYLIST
     }
 
     /**
@@ -209,7 +228,6 @@ public class Logica {
                 if (favourites.getAsJsonArray().get(i).getAsJsonObject().get("tipusResultat").getAsString().equals("youtube#playlist")){
                     String URL = "https://www.googleapis.com/youtube/v3/playlistItems?part=snippet&maxResults=50&playlistId=" + favourites.getAsJsonArray().get(i).getAsJsonObject().get("id").getAsString() + "&key=" + API_KEY;
                     JsonObject json = jsonReader.getJsonFromURL(URL);
-                    //TODO: CONTROLAR QUE EL FITXER ES CREI DE FORMA CORRECTA
                     body = generaHTML.header(favourites.getAsJsonArray().get(i).getAsJsonObject().get("titol").getAsString() + ": " + json.get("items").getAsJsonArray().size() + " videos.", 1);
 
                     for (int j = 0; j < json.get("items").getAsJsonArray().size(); j++){

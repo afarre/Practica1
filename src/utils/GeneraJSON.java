@@ -11,9 +11,11 @@ import java.io.IOException;
  */
 class GeneraJSON {
     private String API_KEY;
+    private JsonReader jsonReader;
 
-    GeneraJSON(String API_KEY) {
+    GeneraJSON(String API_KEY, JsonReader jsonReader) {
         this.API_KEY = API_KEY;
+        this.jsonReader = jsonReader;
     }
 
     /**
@@ -39,7 +41,6 @@ class GeneraJSON {
      * @return Un objecte Json extret del model de dades
      */
     JsonObject generaObjecte(int i, JsonObject json) {
-        JsonReader jsonReader = new JsonReader();
         Gson gson = new Gson();
         JsonParser jsonParser = new JsonParser();
 
@@ -71,9 +72,10 @@ class GeneraJSON {
                 System.out.println(json);
                 favouritesModel.setId(json.get("items").getAsJsonArray().get(i).getAsJsonObject().get("id").getAsJsonObject().get("playlistId").getAsString());
                 URL = "https://www.googleapis.com/youtube/v3/playlistItems?part=snippet&maxResults=50&playlistId=" + favouritesModel.getId() + "&key=" + API_KEY;
+                System.out.println(URL);
                 try {
                     JsonObject jsonobj = jsonReader.getJsonFromURL(URL);
-                    System.out.println(jsonobj);
+                    System.out.println(URL);
                     JsonArray imgArray = new JsonArray();
                     JsonArray URLArray = new JsonArray();
                     for (int j = 0; j < jsonobj.get("items").getAsJsonArray().size(); j++) {
@@ -106,6 +108,7 @@ class GeneraJSON {
      * @return La URL de la imatge amb millor qualitat
      */
     String getMillorImatge(JsonObject json, int j) {
+        System.out.println(j);
         if (json.get("items").getAsJsonArray().get(j).getAsJsonObject().get("snippet").getAsJsonObject().get("thumbnails").getAsJsonObject().get("maxres") != null) {
             return json.get("items").getAsJsonArray().get(j).getAsJsonObject().get("snippet").getAsJsonObject().get("thumbnails").getAsJsonObject().get("maxres").getAsJsonObject().get("url").getAsString();
         } else if (json.get("items").getAsJsonArray().get(j).getAsJsonObject().get("snippet").getAsJsonObject().get("thumbnails").getAsJsonObject().get("standard") != null) {

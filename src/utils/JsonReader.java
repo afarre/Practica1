@@ -9,22 +9,20 @@ import java.io.*;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
-public class JsonReader {
+class JsonReader {
 
     /**
      * Carrega i llegeix el fitxer Json corresponent
      * @return el fitxer Json llegit en forma JsonObject
      */
-    public JsonObject lectura(){
-        JsonObject jsonObject = new JsonObject();
+    JsonArray lectura() throws FileNotFoundException{
+        JsonArray jsonArray;
         Gson gson = new Gson();
         BufferedReader br = null;
         try {
             FileReader fr = new FileReader("favoritePlaces.json");
             br = new BufferedReader(fr);
-            jsonObject = gson.fromJson(br, JsonObject.class).getAsJsonObject();
-        } catch (FileNotFoundException ko) {
-            ko.printStackTrace();
+            jsonArray = gson.fromJson(br, JsonArray.class).getAsJsonArray();
         } finally {
             if (br != null) {
                 try {
@@ -34,7 +32,7 @@ public class JsonReader {
                 }
             }
         }
-        return jsonObject;
+        return jsonArray;
     }
 
     /**
