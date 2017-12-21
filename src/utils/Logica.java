@@ -2,6 +2,7 @@ package utils;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
+import controller.Menu;
 import org.json.JSONArray;
 
 import java.io.FileNotFoundException;
@@ -15,7 +16,7 @@ import java.util.Scanner;
  */
 public class Logica {
 
-    private final String API_KEY = "AIzaSyCHI5qNldMo0BcX8iVv7Gnx9Zc0i1fcIQ0";
+    private final static String API_KEY = "AIzaSyCHI5qNldMo0BcX8iVv7Gnx9Zc0i1fcIQ0";
     private JsonReader jsonReader = new JsonReader();
     private JsonArray favourites = new JsonArray();
     private GeneraHTML generaHTML = new GeneraHTML();
@@ -73,18 +74,17 @@ public class Logica {
     /**
      * Permet al usuari cercar en base a un text introduit, la navegacio dels resultats de la cerca en blocs de 10
      * i el guardar el resultat desitjat en un fitxer json
+     * @param menu Instancia de la clase menu per a poder printar el menu de nou quan sigui necesari
      */
-    public void opcio2() {
+    public void opcio2(Menu menu) {
         System.out.println("Introduiex el que vols cercar:");
         Scanner read = new Scanner(System.in);
         String queryTerm = read.nextLine();
         String URL = "https://www.googleapis.com/youtube/v3/search?part=snippet&q=" + queryTerm.replace(" ", "-") + "&key=" + API_KEY + "&maxResults=10&pageToken=";
-        ArrayList<String> previousTokens = new ArrayList<>();
         try {
             JsonObject json = jsonReader.getJsonFromURL(URL);
 
             int i = 0;
-            int acum = 0;
             mostraResultats(i, json);
             if (json.get("items").getAsJsonArray().size() != 0 ){
                 System.out.println("Selecciona un per desar, si vols veure els seguents, els anteriors o parar:");
@@ -92,18 +92,20 @@ public class Logica {
                 String guardar = read.nextLine();
                 do {
                     if (guardar.compareToIgnoreCase("next") == 0){
-                        //TODO: ARREGLAR EL INDEX DEL BACK
                         URL = "https://www.googleapis.com/youtube/v3/search?part=snippet&q=" + queryTerm.replace(" ", "-") + "&key=" + API_KEY + "&maxResults=10&pageToken=" + json.get("nextPageToken").getAsString();
-                        previousTokens.add(json.get("nextPageToken").getAsString());
+                        System.out.println(URL);
                         json = jsonReader.getJsonFromURL(URL);
                         mostraResultats(i, json);
-                        acum++;
                         System.out.println("Selecciona un per desar, si vols veure els seguents, els anteriors o parar:");
                     }else if (guardar.compareToIgnoreCase("back") == 0){
-                        URL = "https://www.googleapis.com/youtube/v3/search?part=snippet&q=" + queryTerm.replace(" ", "-") + "&key=" + API_KEY + "&maxResults=10&pageToken=" + previousTokens.get(--acum);
-                        json = jsonReader.getJsonFromURL(URL);
-                        mostraResultats(i, json);
-                        System.out.println("Selecciona un per desar, si vols veure els seguents, els anteriors o parar:");
+                        if (json.get("prevPageToken") != null){
+                            URL = "https://www.googleapis.com/youtube/v3/search?part=snippet&q=" + queryTerm.replace(" ", "-") + "&key=" + API_KEY + "&maxResults=10&pageToken=" + json.get("prevPageToken").getAsString();
+                            json = jsonReader.getJsonFromURL(URL);
+                            mostraResultats(i, json);
+                            System.out.println("Selecciona un per desar, si vols veure els seguents, els anteriors o parar:");
+                        }else {
+                            menu.mostraMenu();
+                        }
                     }else if (guardar.compareToIgnoreCase("stop") == 0){
                         return;
                     }else if (isNumeric(guardar) && Integer.parseInt(guardar) < 11 && Integer.parseInt(guardar) > 0){
@@ -120,7 +122,6 @@ public class Logica {
         } catch (IOException e) {
             e.printStackTrace();
         } catch (IndexOutOfBoundsException e){
-            e.printStackTrace();
             System.out.println("Ja no hi han mes resultats de cerca!");
         }
     }
@@ -172,6 +173,7 @@ public class Logica {
         int subsTotals = 0;
         String playlistVella = "a";
         String playlistNova = "";
+
         for (int i = 0; i < favourites.size(); i++){
             switch (favourites.get(i).getAsJsonObject().get("tipusResultat").getAsString()) {
                 case "youtube#video":
@@ -190,7 +192,6 @@ public class Logica {
                     URL = "https://www.googleapis.com/youtube/v3/playlists?id=" + favourites.get(i).getAsJsonObject().get("id").getAsString() + "&key=" + API_KEY + "&part=snippet";
                     try {
                         JsonObject playlist = jsonReader.getJsonFromURL(URL);
-                        //TODO: Guardar el nom de la playlist com a id i printar el quan es va publicar
                         String aux = playlist.get("items").getAsJsonArray().get(0).getAsJsonObject().get("snippet").getAsJsonObject().get("publishedAt").getAsString();
                         if (aux.compareTo(playlistVella) < 0){
                             playlistVella = aux;
@@ -215,6 +216,9 @@ public class Logica {
                     break;
             }
         }
+        if (playlistVella.equals("a")){
+            playlistVella = "";
+        }
         if (canalsTotal == 0 && videosTotals == 0){
             System.out.println("No data for videos");
             System.out.println("No data for channels");
@@ -236,7 +240,6 @@ public class Logica {
             System.out.println("La playlist mes vella es del: " + playlistVella);
             System.out.println("La playlist mes nova es del: " + playlistNova);
         }
-        //TODO: ACABAR LES PLAYLIST
     }
 
     /**

@@ -41,7 +41,7 @@ public class Menu {
                         logica.opcio1();
                         break;
                     case 2:
-                        logica.opcio2();
+                        logica.opcio2(this);
                         break;
                     case 3:
                         logica.opcio3();

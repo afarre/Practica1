@@ -30,7 +30,6 @@ class GeneraJSON {
     void guardaFitxer(JsonArray array) {
         try {
             FileWriter file = new FileWriter("favoritePlaces.json");
-            //TODO: NO SOBREESCRIURE EL FITXER VELL, AFEGIR LES DADES VELLES AL NOU
             file.write(array.toString());
             file.flush();
             file.close();
@@ -123,8 +122,7 @@ class GeneraJSON {
         } else if (json.get("items").getAsJsonArray().get(j).getAsJsonObject().get("snippet").getAsJsonObject().get("thumbnails").getAsJsonObject().get("default") != null) {
             return json.get("items").getAsJsonArray().get(j).getAsJsonObject().get("snippet").getAsJsonObject().get("thumbnails").getAsJsonObject().get("default").getAsJsonObject().get("url").getAsString();
         } else {
-            //TODO: RETORNAR UNA IMATGE GUARDADA EN LOCAL
-            return "No image found";
+            return "noimage.jpg";
         }
     }
 }
