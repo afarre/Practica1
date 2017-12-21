@@ -2,7 +2,6 @@ package utils;
 
 import com.google.gson.*;
 import model.FavouritesModel;
-import org.json.JSONObject;
 
 import java.io.FileWriter;
 import java.io.IOException;
@@ -14,6 +13,11 @@ class GeneraJSON {
     private String API_KEY;
     private JsonReader jsonReader;
 
+    /**
+     * Constructor amb parametes de la classe
+     * @param API_KEY Assigna el valor de la variable API_KEY
+     * @param jsonReader Assigna la instancia de la classe JsonReader
+     */
     GeneraJSON(String API_KEY, JsonReader jsonReader) {
         this.API_KEY = API_KEY;
         this.jsonReader = jsonReader;
@@ -96,14 +100,6 @@ class GeneraJSON {
         }
 
         JsonElement element = jsonParser.parse(gson.toJson(favouritesModel));
-        return element.getAsJsonObject();
-    }
-
-    JsonObject generaEmptyObject(int i, JsonObject json){
-        Gson gson = new Gson();
-        JsonParser jsonParser = new JsonParser();
-
-        JsonElement element = jsonParser.parse(gson.toJson(json));
         return element.getAsJsonObject();
     }
 

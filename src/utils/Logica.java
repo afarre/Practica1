@@ -14,12 +14,17 @@ import java.util.Scanner;
  * Created by angel on 20/12/2017.
  */
 public class Logica {
+
+    private final String API_KEY = "AIzaSyCHI5qNldMo0BcX8iVv7Gnx9Zc0i1fcIQ0";
     private JsonReader jsonReader = new JsonReader();
     private JsonArray favourites = new JsonArray();
-    private final String API_KEY = "AIzaSyCHI5qNldMo0BcX8iVv7Gnx9Zc0i1fcIQ0";
     private GeneraHTML generaHTML = new GeneraHTML();
     private GeneraJSON generaJSON = new GeneraJSON(API_KEY, jsonReader);
 
+    /**
+     * Carrega el fitxer de favorits ya existent o en genera un de nou si no n'existeix cap
+     * @return True si existeix i l'ha carregat, False si no existeix i l'ha generat nou
+     */
     public boolean carregaFavorits(){
         try {
             favourites = jsonReader.lectura();
@@ -145,10 +150,14 @@ public class Logica {
             }
         }
 
-        for (int i = 0; i < videos.size(); i++){
-            System.out.println("~~~~Video numero " + (i + 1) + "~~~~");
-            System.out.println("    Nom: " + videos.get(i).get("titol").getAsString());
-            System.out.println("    Percentatge de likes: " + videos.get(i).get("percentatgeDeLikes").getAsFloat() + "%");
+        if (videos.size() == 0){
+            System.out.println("No hi ha cap video al fitxer de favorits.");
+        }else {
+            for (int i = 0; i < videos.size(); i++){
+                System.out.println("~~~~Video numero " + (i + 1) + "~~~~");
+                System.out.println("    Nom: " + videos.get(i).get("titol").getAsString());
+                System.out.println("    Percentatge de likes: " + videos.get(i).get("percentatgeDeLikes").getAsFloat() + "%");
+            }
         }
     }
 
@@ -324,7 +333,6 @@ public class Logica {
             e.printStackTrace();
         }
     }
-
 
     /**
      * Mostra per pantalla els resultats del json introduit
