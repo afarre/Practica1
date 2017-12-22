@@ -20,7 +20,7 @@ public class Logica {
     private JsonReader jsonReader = new JsonReader();
     private JsonArray favourites = new JsonArray();
     private GeneraHTML generaHTML = new GeneraHTML();
-    private GeneraJSON generaJSON = new GeneraJSON(API_KEY, jsonReader);
+    private GeneraJSON generaJSON = new GeneraJSON(this);
 
     /**
      * Carrega el fitxer de favorits ya existent o en genera un de nou si no n'existeix cap
@@ -31,14 +31,9 @@ public class Logica {
             favourites = jsonReader.lectura();
             return true;
         } catch (FileNotFoundException e) {
-            try {
-                String URL = "https://www.googleapis.com/youtube/v3/search?part=snippet&q=netsky-escape&key=" + API_KEY + "&maxResults=10&pageToken=";
-                JsonObject json = jsonReader.getJsonFromURL(URL);
-                favourites.add(generaJSON.generaObjecte(0, json));
-                generaJSON.guardaFitxer(favourites);
-            } catch (IOException e1) {
-                System.out.println("Error a l'hora de fer una peticio a YouTube per a carregar una fitxer de favorits per defecte.");
-            }
+            JsonObject jsonObject = new JsonObject();
+            favourites.add(jsonObject);
+            generaJSON.guardaFitxer(favourites);
             return false;
         }
     }
@@ -83,6 +78,7 @@ public class Logica {
         String URL = "https://www.googleapis.com/youtube/v3/search?part=snippet&q=" + queryTerm.replace(" ", "-") + "&key=" + API_KEY + "&maxResults=10&pageToken=";
         try {
             JsonObject json = jsonReader.getJsonFromURL(URL);
+            System.out.println(json);
 
             int i = 0;
             mostraResultats(i, json);
@@ -92,11 +88,17 @@ public class Logica {
                 String guardar = read.nextLine();
                 do {
                     if (guardar.compareToIgnoreCase("next") == 0){
-                        URL = "https://www.googleapis.com/youtube/v3/search?part=snippet&q=" + queryTerm.replace(" ", "-") + "&key=" + API_KEY + "&maxResults=10&pageToken=" + json.get("nextPageToken").getAsString();
-                        System.out.println(URL);
-                        json = jsonReader.getJsonFromURL(URL);
-                        mostraResultats(i, json);
-                        System.out.println("Selecciona un per desar, si vols veure els seguents, els anteriors o parar:");
+                        if (json.get("nextPageToken") != null){
+                            URL = "https://www.googleapis.com/youtube/v3/search?part=snippet&q=" + queryTerm.replace(" ", "-") + "&key=" + API_KEY + "&maxResults=10&pageToken=" + json.get("nextPageToken").getAsString();
+                            System.out.println(URL);
+                            json = jsonReader.getJsonFromURL(URL);
+                            mostraResultats(i, json);
+                            System.out.println("Selecciona un per desar, si vols veure els seguents, els anteriors o parar:");
+                        }else {
+                            System.out.println("No hi han mes resultats de busqueda.");
+                            menu.mostraMenu();
+                        }
+
                     }else if (guardar.compareToIgnoreCase("back") == 0){
                         if (json.get("prevPageToken") != null){
                             URL = "https://www.googleapis.com/youtube/v3/search?part=snippet&q=" + queryTerm.replace(" ", "-") + "&key=" + API_KEY + "&maxResults=10&pageToken=" + json.get("prevPageToken").getAsString();
@@ -132,7 +134,7 @@ public class Logica {
     public void opcio3() {
         ArrayList<JsonObject> videos = new ArrayList<>();
 
-        for(int i = 0; i < favourites.size(); i++){
+        for(int i = 1; i < favourites.size(); i++){
             if (favourites.get(i).getAsJsonObject().get("tipusResultat").getAsString().equals("youtube#video")) {
                 videos.add(favourites.get(i).getAsJsonObject());
             }
@@ -174,7 +176,7 @@ public class Logica {
         String playlistVella = "a";
         String playlistNova = "";
 
-        for (int i = 0; i < favourites.size(); i++){
+        for (int i = 1; i < favourites.size(); i++){
             switch (favourites.get(i).getAsJsonObject().get("tipusResultat").getAsString()) {
                 case "youtube#video":
                     videosTotals++;
@@ -243,13 +245,13 @@ public class Logica {
     }
 
     /**
-     * Genera un fitxer html que mostra una llista amb el nom i imatge del video amb el seu enllaç per cada
+     * Genera un fitxer HTML que mostra una llista amb el nom i imatge del video amb el seu enllaç per cada
      * playlist guardada al fitxer de favorits
      */
     public void opcio5() {
         try {
             String body;
-            for (int i = 0; i < favourites.size(); i++){
+            for (int i = 1; i < favourites.size(); i++){
                 if (favourites.getAsJsonArray().get(i).getAsJsonObject().get("tipusResultat").getAsString().equals("youtube#playlist")){
                     String URL = "https://www.googleapis.com/youtube/v3/playlistItems?part=snippet&maxResults=50&playlistId=" + favourites.getAsJsonArray().get(i).getAsJsonObject().get("id").getAsString() + "&key=" + API_KEY;
                     JsonObject json = jsonReader.getJsonFromURL(URL);
@@ -257,7 +259,7 @@ public class Logica {
 
                     for (int j = 0; j < json.get("items").getAsJsonArray().size(); j++){
                         body = body + generaHTML.header(json.get("items").getAsJsonArray().get(j).getAsJsonObject().get("snippet").getAsJsonObject().get("title").getAsString(), 4);
-                        body = body + generaHTML.enllaç("https://www.youtube.com/watch?v=" + json.get("items").getAsJsonArray().get(j).getAsJsonObject().get("snippet").getAsJsonObject().get("resourceId").getAsJsonObject().get("videoId").getAsString(), generaHTML.img(generaJSON.getMillorImatge(json, j),"Image not found!", 400, 600));
+                        body = body + generaHTML.enllac("https://www.youtube.com/watch?v=" + json.get("items").getAsJsonArray().get(j).getAsJsonObject().get("snippet").getAsJsonObject().get("resourceId").getAsJsonObject().get("videoId").getAsString(), generaHTML.img(generaJSON.getMillorImatge(json, j),"Image not found!", 400, 600));
                     }
                     generaHTML.creaPlantilla(favourites.getAsJsonArray().get(i).getAsJsonObject().get("titol").getAsString(), body);
                 }
@@ -269,17 +271,16 @@ public class Logica {
     }
 
     /**
-     * Genera un fitxer en html que mostra en una graella els thumbnails de tots els resultats desats a favorits
+     * Genera un fitxer en HTML que mostra en una graella els thumbnails de tots els resultats desats a favorits
      * amb un enllaç al seu video corresponent
      */
-    //TODO: AMB ZOOM GRAN MOSTRE FILES DE 4, HAM ZOOM MES GRAN FILES DEL TAMANY DE LA PANTALLA. TOT EN UNA SOLA FILA?
     public void opcio6() {
         JsonArray thumbnailArray =  new JsonArray();
         JsonArray URLArray = new JsonArray();
         ArrayList<Boolean> iframe = new ArrayList<>();
-        for (int i = 0; i < favourites.size(); i++) {
+        for (int i = 1; i < favourites.size(); i++) {
             if (favourites.get(i).getAsJsonObject().get("tipusResultat").getAsString().equals("youtube#playlist")){
-                for (int j = 0; j < favourites.get(i).getAsJsonObject().get("thumbnails").getAsJsonArray().size(); j++){
+                for (int j = 1; j < favourites.get(i).getAsJsonObject().get("thumbnails").getAsJsonArray().size(); j++){
                     if (favourites.get(i).getAsJsonObject().get("thumbnails").getAsJsonArray().get(j).getAsString().equals("null")){
                         thumbnailArray.add("");
                     }else {
@@ -311,7 +312,7 @@ public class Logica {
                     graella = graella + generaHTML.generaIframe(URLArray.get((i * 4) + j).getAsString(), 400, 600);
                 }else{
                     String img = generaHTML.img(thumbnailArray.get((i * 4) + j).getAsString(), "Image not found!", 400, 600);
-                    graella = graella + generaHTML.enllaç(URLArray.get((i * 4) + j).getAsString(), img);
+                    graella = graella + generaHTML.enllac(URLArray.get((i * 4) + j).getAsString(), img);
                 }
             }
             fila = fila + generaHTML.generaFila(generaHTML.generaCasella(graella)) + "\n";
@@ -323,7 +324,7 @@ public class Logica {
                 graella = graella + generaHTML.generaIframe(URLArray.get(i).getAsString(), 400, 600);
             }else{
                 String img = generaHTML.img(thumbnailArray.get(i).getAsString(), "Image not found!", 400, 600);
-                graella = graella + generaHTML.enllaç(URLArray.get(i).getAsString(), img);
+                graella = graella + generaHTML.enllac(URLArray.get(i).getAsString(), img);
             }
 
 
@@ -367,5 +368,13 @@ public class Logica {
         return str.matches("-?\\d+(\\.\\d+)?");
     }
 
+
+    public static String getApiKey() {
+        return API_KEY;
+    }
+
+    public JsonReader getJsonReader() {
+        return jsonReader;
+    }
 
 }

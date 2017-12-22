@@ -9,13 +9,14 @@ import java.io.*;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
-class JsonReader {
+public class JsonReader {
 
     /**
      * Carrega i llegeix el fitxer Json corresponent
      * @return el fitxer Json llegit en forma JsonObject
+     * @throws FileNotFoundException Si no troba el fitxer
      */
-    JsonArray lectura() throws FileNotFoundException{
+    public JsonArray lectura() throws FileNotFoundException{
         JsonArray jsonArray;
         Gson gson = new Gson();
         BufferedReader br = null;
@@ -39,11 +40,10 @@ class JsonReader {
      * Llegeix i guarda el Json obtingut a partir de certa URL
      * @param url URL de la qual obtenir el Json
      * @return Un JsonObject el qual conte el Json llegit
-     * @throws IOException
+     * @throws IOException En cas de no poder porcesar la petició correctament
      */
-    JsonObject getJsonFromURL(String url) throws IOException {
+    public JsonObject getJsonFromURL(String url) throws IOException {
         URL obj = new URL(url);
-        JsonObject jsonObject = new JsonObject();
         HttpURLConnection con = (HttpURLConnection) obj.openConnection();
         BufferedReader in = new BufferedReader(new InputStreamReader(con.getInputStream()));
         String inputLine;
@@ -54,7 +54,6 @@ class JsonReader {
         in.close();
         String aux = CadenaTotal.toString();
         Gson g = new Gson();
-        jsonObject = g.fromJson(aux, JsonObject.class);
-        return jsonObject;
+        return g.fromJson(aux, JsonObject.class);
     }
 }

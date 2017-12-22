@@ -10,7 +10,7 @@ import java.util.Date;
 /**
  * Created by angel on 16/12/2017.
  */
-class GeneraHTML {
+public class GeneraHTML {
 
     /**
      * Genera la plantilla base d'un fitxer HTML
@@ -18,7 +18,7 @@ class GeneraHTML {
      * @param body Cos del HTML
      * @throws IOException if file has not been successfully created
      */
-    void creaPlantilla(String title, String body) throws IOException {
+    public void creaPlantilla(String title, String body) throws IOException {
         if (title.matches("^[^\\\\/:*?<>|]+$")){
             BufferedWriter bw = new BufferedWriter(new FileWriter(title + ".html"));
             bw.write("<!DOCTYPE html>\n" +
@@ -59,7 +59,7 @@ class GeneraHTML {
      * @param header Tamany del header
      * @return El header generat
      */
-    String header(String title, int header){
+    public String header(String title, int header){
         return "<h" + header + ">" + title + "</h" + header + ">" + "\n";
     }
 
@@ -71,7 +71,7 @@ class GeneraHTML {
      * @param width Amplada especificada en pixels
      * @return El img generat
      */
-    String img(String src, String alt, int height, int width){
+    public String img(String src, String alt, int height, int width){
         return "<img src=\"" + src + "\" height=\"" + height + "\" width=\"" + width + "\" alt=\"" + alt + "\"/>" + "\n";
     }
 
@@ -81,7 +81,7 @@ class GeneraHTML {
      * @param elem Element sobre el qual aplicar el enllaç especificat
      * @return El enllaç generat
      */
-    String enllaç(String href, String elem){
+    public String enllac(String href, String elem){
         return "<a href=\"" + href + "\"> \n    " + elem + "</a>" + "\n";
     }
 
@@ -90,7 +90,7 @@ class GeneraHTML {
      * @param graella Contingut de la graella
      * @return La graella generada
      */
-    String graella(String graella){
+    public String graella(String graella){
         return "<table>\n" +
                     graella +
                 "</table>\n";
@@ -101,7 +101,7 @@ class GeneraHTML {
      * @param graella Contingut de la fila
      * @return La fila generada
      */
-    String generaFila(String graella){
+    public String generaFila(String graella){
         return "   <tr>\n" +
                         graella +
                 "   </tr>\n";
@@ -112,7 +112,7 @@ class GeneraHTML {
      * @param element Contingut de la casella
      * @return La casella generada
      */
-    String generaCasella(String element){
+    public String generaCasella(String element){
         return  "       <td>\n" +
                             element +
                 "       </td>\n";
@@ -125,7 +125,7 @@ class GeneraHTML {
      * @param width Amplada especificada en pixels
      * @return El iframe generat
      */
-    String generaIframe(String url, int height, int width){
+    public String generaIframe(String url, int height, int width){
         return "<iframe width=\"" + width + "\" height=\"" + height + "\" src=\"" + url + "\"></iframe>" + "\n";
     }
 

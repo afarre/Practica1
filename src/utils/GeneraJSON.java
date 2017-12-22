@@ -9,25 +9,22 @@ import java.io.IOException;
 /**
  * Created by angel on 02/12/2017.
  */
-class GeneraJSON {
-    private String API_KEY;
-    private JsonReader jsonReader;
+public class GeneraJSON {
+    private Logica logica;
 
     /**
-     * Constructor amb parametes de la classe
-     * @param API_KEY Assigna el valor de la variable API_KEY
-     * @param jsonReader Assigna la instancia de la classe JsonReader
+     * Constructor amb parametres on assignarem parametres
+     * @param logica Parametre que volem assignar
      */
-    GeneraJSON(String API_KEY, JsonReader jsonReader) {
-        this.API_KEY = API_KEY;
-        this.jsonReader = jsonReader;
+    public GeneraJSON(Logica logica) {
+        this.logica = logica;
     }
 
     /**
      * Crea un fitxer .json
      * @param array Array de dades a partir del qual generar el fitxer .json
      */
-    void guardaFitxer(JsonArray array) {
+    public void guardaFitxer(JsonArray array) {
         try {
             FileWriter file = new FileWriter("favoritePlaces.json");
             file.write(array.toString());
@@ -44,7 +41,7 @@ class GeneraJSON {
      * @param json Json d'on volem extreure les dades
      * @return Un objecte Json extret del model de dades
      */
-    JsonObject generaObjecte(int i, JsonObject json) {
+    public JsonObject generaObjecte(int i, JsonObject json) {
         Gson gson = new Gson();
         JsonParser jsonParser = new JsonParser();
 
@@ -57,9 +54,9 @@ class GeneraJSON {
         switch (favouritesModel.getTipusResultat()) {
             case "youtube#video":
                 favouritesModel.setId(json.get("items").getAsJsonArray().get(i).getAsJsonObject().get("id").getAsJsonObject().get("videoId").getAsString());
-                String URL = "https://www.googleapis.com/youtube/v3/videos?id=" + favouritesModel.getId() + "&key=" + API_KEY + "&part=statistics";
+                String URL = "https://www.googleapis.com/youtube/v3/videos?id=" + favouritesModel.getId() + "&key=" + Logica.getApiKey() + "&part=statistics";
                 try {
-                    JsonObject jsonobj = jsonReader.getJsonFromURL(URL);
+                    JsonObject jsonobj = logica.getJsonReader().getJsonFromURL(URL);
                     int likes = jsonobj.getAsJsonArray("items").get(0).getAsJsonObject().get("statistics").getAsJsonObject().get("likeCount").getAsInt();
                     int dislikes = jsonobj.getAsJsonArray("items").get(0).getAsJsonObject().get("statistics").getAsJsonObject().get("dislikeCount").getAsInt();
                     int percentatgeLikes = 100 * likes / (likes + dislikes);
@@ -74,9 +71,9 @@ class GeneraJSON {
                 break;
             case "youtube#playlist":
                 favouritesModel.setId(json.get("items").getAsJsonArray().get(i).getAsJsonObject().get("id").getAsJsonObject().get("playlistId").getAsString());
-                URL = "https://www.googleapis.com/youtube/v3/playlistItems?part=snippet&maxResults=50&playlistId=" + favouritesModel.getId() + "&key=" + API_KEY;
+                URL = "https://www.googleapis.com/youtube/v3/playlistItems?part=snippet&maxResults=50&playlistId=" + favouritesModel.getId() + "&key=" + Logica.getApiKey();
                 try {
-                    JsonObject jsonobj = jsonReader.getJsonFromURL(URL);
+                    JsonObject jsonobj = logica.getJsonReader().getJsonFromURL(URL);
                     JsonArray imgArray = new JsonArray();
                     JsonArray URLArray = new JsonArray();
                     for (int j = 0; j < jsonobj.get("items").getAsJsonArray().size(); j++) {
@@ -108,7 +105,7 @@ class GeneraJSON {
      * @param j Index que indica quin element del json s'ha de llegir
      * @return La URL de la imatge amb millor qualitat
      */
-    String getMillorImatge(JsonObject json, int j) {
+    public String getMillorImatge(JsonObject json, int j) {
         if (json.get("items").getAsJsonArray().get(j).getAsJsonObject().get("snippet").getAsJsonObject().get("thumbnails") == null){
             return "noimage.jpg";
         }else if (json.get("items").getAsJsonArray().get(j).getAsJsonObject().get("snippet").getAsJsonObject().get("thumbnails").getAsJsonObject().get("maxres") != null) {

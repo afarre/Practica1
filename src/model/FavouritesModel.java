@@ -79,15 +79,4 @@ public class FavouritesModel {
         this.nomCanal = nomCanal;
     }
 
-    @Override
-    public String toString() {
-        return "FavouritesModel{" +
-                "tipusResultat='" + tipusResultat + '\'' +
-                ", titol='" + titol + '\'' +
-                ", descripcio='" + descripcio + '\'' +
-                ", nomCanal='" + nomCanal + '\'' +
-                ", id='" + id + '\'' +
-                ", likes=" + percentatgeDeLikes +
-                '}';
-    }
 }
