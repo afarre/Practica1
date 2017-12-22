@@ -78,7 +78,6 @@ public class Logica {
         String URL = "https://www.googleapis.com/youtube/v3/search?part=snippet&q=" + queryTerm.replace(" ", "-") + "&key=" + API_KEY + "&maxResults=10&pageToken=";
         try {
             JsonObject json = jsonReader.getJsonFromURL(URL);
-            System.out.println(json);
 
             int i = 0;
             mostraResultats(i, json);
